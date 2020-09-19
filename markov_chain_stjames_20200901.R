@@ -69,13 +69,14 @@
 
 -------- #1  Fitting of distributions to posterior lambda distribution from ABC method----------------------------------------------------------------------------------------------
 
-#setwd("C:/Users/apfeifer/Documents/Pubs/In prep/ReaP pub") #school computer
-setwd('C:/Users/wilso/Documents/Research/dissertation/preparation of chapters/Other materials') #laptop
 
-#read in csv file
+#read in csv file for transfer efficiencies
 library(readr)
 lambda<-read_csv("lambda.csv",col_names=FALSE)
 lambda<-lambda$X1
+
+#read in behaviour data
+movsdf.rbind<-read.csv('movsdf.rbind_orientationcorrected.csv')
 
 
 #####
@@ -108,25 +109,25 @@ movsdf.rbind$SurfaceCategories<-revalue(movsdf.rbind$Surface,c("AlcOutside"="Hyg
                                                                #"GlovesOnOutside"="HygieneOutside",
                                                                "Stethoscope"="Equipment"))
 
-#if gloves are put on after an "out," then this is a HygieneOUtside moment
-for (i in 1:max(movsdf.rbind$ActivityID)){
+#if gloves are put on after an "out," then this is a HygieneOutside moment
+#for (i in 1:max(movsdf.rbind$ActivityID)){
   
   # if this particular participant has a GlovesOn moment....
-  if(length(movsdf.rbind$Surface[movsdf.rbind$Surface=="GlovesOn" & movsdf.rbind$ActivityID==i])!=0){
+ # if(length(movsdf.rbind$Surface[movsdf.rbind$Surface=="GlovesOn" & movsdf.rbind$ActivityID==i])!=0){
     
     #and the time at which this happens is greater than the time at which an "out" event happens for this same person...
     # or the time at which this happens is smaller than the time at which an "in" event happens for this same person...
-      if(movsdf.rbind$Time[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="GlovesOn"] - movsdf.rbind$Time[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="Out"] > 0 |
-       movsdf.rbind$Time[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="In"] - movsdf.rbind$Time[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="GlovesOn"] > 0){
+   #   if(movsdf.rbind$Time[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="GlovesOn"] - movsdf.rbind$Time[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="Out"] > 0 |
+  #     movsdf.rbind$Time[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="In"] - movsdf.rbind$Time[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="GlovesOn"] > 0){
      
        #then this is a "HygieneOutside" moment
-        movsdf.rbind$SurfaceCategories[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="GlovesOn"]<-"HygieneOutside"
-      }else{
+     #   movsdf.rbind$SurfaceCategories[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="GlovesOn"]<-"HygieneOutside"
+    #  }else{
         #otherwise, this is a "HygienInside" moment that we'll designate as "GlovesOn"
-        movsdf.rbind$SurfaceCategories[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="GlovesOn"]<-"GlovesOn"
-    }
-  }
-}
+      #  movsdf.rbind$SurfaceCategories[movsdf.rbind$ActivityID==i & movsdf.rbind$Surface=="GlovesOn"]<-"GlovesOn"
+    #}
+  #}
+#}
 
 #we will remove all "HygienOutside" moments, because we are only interested in capturing what happens between
 #"In" and "Out" events
