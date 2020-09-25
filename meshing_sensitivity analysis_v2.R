@@ -20,8 +20,12 @@ orientation2rake2<-rbind(rake2.0.027,rake2.0.03,rake2.0.04)
 type2<-c(rep("0.027",99),rep("0.03",99),rep("0.04",99))
 orientation2rake2$type<-type2
 
-ggplot(data=orientation2rake2)+geom_point(aes(x=nodenumber,y=velocity.magnitude,colour=type))+
+ggplot(data=orientation2rake2)+
+  geom_point(aes(x=nodenumber,y=velocity.magnitude,colour=type),size=3)+
   scale_colour_discrete(name="Body Sizing Element Size")+
   scale_y_continuous(name="Velocity Magnitude")+
-  scale_x_continuous(name="Node Number")
+  scale_x_continuous(name="Node Number")+
+  theme_pubr()+
+  theme(axis.title=element_text(size=16),axis.text=element_text(size=16),
+        legend.text = element_text(size=16),legend.title = element_text(size=16))
 
