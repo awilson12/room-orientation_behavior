@@ -14,7 +14,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
  
   #Behavior model section
 
-  sample.space<-c("Alcohol","Equipment","FarPatient","GlovesOff","GlovesOn","HygieneInside","In","NearPatient","Out","Patient")
+  sample.space<-c("Alcohol","Equipment","FarPatient","Gloves","HygieneInside","In","NearPatient","Out","Patient")
   
   #will save output sequences in behavior.total
   behavior.total<-list() #creating a list to store behaviors
@@ -171,7 +171,6 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     behavior<-"In" #first behavior is "In"
     k<-2 #setting up k for while loop
     
-
     
     #while the previous behavior is not "Out," make new behaviors
     while (behavior[k-1]!="Out"){
@@ -182,40 +181,37 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
       
       behavior[k]<-sample(sample.space,1,replace=TRUE,prob=prob.mat[behavior[k-1],])
       
-      #now we have to handle issues where someone is taking GlovesOff having never put them on
+      #If a hand hygiene moment was selected, we want to make sure gloves are not on, since they are
+      #supposed to be doffed before hand hygiene. Since we assume everyone starts without gloves,
+      #an even number of glove moments up to this point would indicate that gloves are off while
+      #an odd number of glove moments up to this point would indicate that gloves are on.
       
-      #if the current selected behavior is GlovesOff and they've never put GlovesOn or the maximum position of a previous GlovesOff is greater than
-      # the maximum position of a previous GlovesOn
-      behaviorcount<-1:length(behavior)
-      glovestate<-"placeholder"
-      
-      if(behavior[k]=="GlovesOn" & glovestate!=1){
-        glovestate<-1
-        behavior[k]<-behavior[k]
-      }else if (behavior[k]=="GlovesOn"){
-        while(behavior[k]=="GlovesOn"){
+      #So, if the selected behavior is a hand hygiene moment and the lenght of glove behaviors
+      #so far is not divisible by 2, then we replace this hand hygiene moment with a different
+      #event.
+      if (behavior[k]=="Alcohol" & length(behavior[behavior=="Gloves"])%%2!=0){
+        
+        #While the currently selected behavior is alcohol, keep resampling
+        #until we find something different.
+        
+        while (behavior[k]=="Alcohol"){
           behavior[k]<-sample(sample.space,1,replace=TRUE,prob=prob.mat[behavior[k-1],])
         }
-      }else{
-        behavior[k]<-behavior[k]
+         
       }
+     
       
-      if(behavior[k]=="GlovesOff" & glovestate!=1){
-        while(behavior[k]=="GlovesOff"){
-          behavior[k]<-sample(sample.space,1,replace=TRUE,prob=prob.mat[behavior[k-1],])
-        }
-      }else if (behavior[k]=="GlovesOff"){
-        behavior[k]<-behavior[k]
-        glovestate<-0
-      }
-      
-
       #advance contact number by 1
       k<-k+1
     }
    
     
     ###  exposure simulation  ###
+    
+    #-------- GLOVES --------------------------------------------------------------------
+    
+    gloves<-rep(NA,length(behavior)) #setting this up so we can store their glove condition (on=1, off=-1) throughout the simulation
+    gloves[1]<-(-1) #assume initially not wearing gloves
     
     #--------- TRANSFER EFFICIENCY -------------------------------------------------------
     
@@ -303,71 +299,91 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     handR<-rep(0,length(behavior))
     handL<-rep(0,length(behavior))
     
+    #initial conditions on hand based on hand-to-door contact upon entrance
+    if(hand[1]=="right"){
+      handR[1]<-0-transfer[1]*SH[1]*(0-surfconc[1])
+      handL[1]<-0  
+    }else{
+      handL[1]<-0-transfer[1]*SH[1]*(0-surfconc[1])
+      handR[1]<-0 
+    }
+    
+    
     for (a in 2:(length(behavior))){
       
-      if(hand[1]=="right"){
-        handR[1]<-0-transfer[1]*SH[1]*(0-surfconc[1])
-        handL[1]<-0  
-      }else{
-        handL[1]<-0-transfer[1]*SH[1]*(0-surfconc[1])
-        handR[1]<-0 
-      }
-    
-      if(hand[a]=="right"){
-  
-        if(behavior[a]!="GlovesOn" & behavior[a]!="GlovesOff" & behavior[a]!="Alcohol"){
+      #If there is no change in gloves state and this is not a hand hygiene moment...
+      if(behavior[a]!="Gloves" & behavior[a]!="Alcohol"){
+        
+        #then our glove status stays the same
+        gloves[a]<-gloves[a-1]
+        
+        #and if the right hand is used...
+        if(hand[a]=="right"){
+          
+          #change conc on right hand and left hand has no change
           handR[a]<-(handR[a-1]-transfer[a]*SH[a]*(handR[a-1]-surfconc[a]))
           handL[a]<-handL[a-1]
-        }else if (behavior[a]=="GlovesOn"){
-          handR[a]<-0 #placeholder
-          handL[a]<-0 #placeholder
-        }else if (behavior[a]=="Alcohol"){
-          handR[a]<-handR[a-1]/hygiene[a]
-          handL[a]<-handL[a-1]/hygiene[a]
+          
         }else{
-          #look for most recent GlovesOn moment previous to this GlovesOff moment
-            behaviorcount<-1:length(behavior)
-            #max count position of GlovesOn that have happened so far - 1 (previous moment before GlovesOn)
-            beforegloveson<- max(behaviorcount[behavior=="GlovesOn" & behaviorcount <=a]) - 1
-            handR[a]<-handR[beforegloveson]
-            handL[a]<-handL[beforegloveson]
+          
+          #otherwise, the left hand is used. so change conc on left hand and right hand has no change
+          handL[a]<-(handL[a-1]-transfer[a]*SH[a]*(handL[a-1]-surfconc[a]))
+          handR[a]<-handR[a-1]
+          
         }
-      }else{
-    
-       if(behavior[a]!="GlovesOn" & behavior[a]!="GlovesOff" & behavior[a]!="Alcohol"){
-        handL[a]<-(handL[a-1]-transfer[a]*SH[a]*(handL[a-1]-surfconc[a]))
-       handR[a]<-handR[a-1]
-        }else if (behavior[a]=="GlovesOn"){
-          #when gloves are put on, concentration on hands goes to 0
-          handR[a]<-0 #placeholder
-          handL[a]<-0 #placeholder
-        }else if (behavior[a]=="Alcohol"){
-          handR[a]<-handR[a-1]/hygiene[a]
-          handL[a]<-handL[a-1]/hygiene[a]
+        
+      }else if (behavior[a]=="Gloves"){
+        #if they are changing glove state...
+        
+        #we change their previous glove state
+        gloves[a]<-gloves[a-1]*-1
+        
+        #if gloves are now on, we assume no self-contamination of gloves during donning
+        if (gloves[a]==1){
+          handR[a]<-0
+          handL[a]<-0
+          
         }else{
-          #look for most recent GlovesOn moment previous to this GlovesOff moment
+          #if gloves are taken off...
+          
+          #look for most recent Gloves moment previous to this gloves-off moment
           behaviorcount<-1:length(behavior)
-          #max count position of GlovesOn that have happened so far - 1 (previous moment before GlovesOn)
-          beforegloveson<- max(behaviorcount[behavior=="GlovesOn" & behaviorcount <=a]) - 1
+          
+          #max count position of Gloves that have happened so far - 1 (previous moment before GlovesOn)
+          beforegloveson<- max(behaviorcount[behavior=="Gloves" & behaviorcount <=a]) - 1
           handR[a]<-handR[beforegloveson]
           handL[a]<-handL[beforegloveson]
+          
         }
+        
+        
+      }else{
+        #otherwise, it must be a hand hygiene moment and there is a reduction in virus on both hands
+        handR[a]<-handR[a-1]/hygiene[a]
+        handL[a]<-handL[a-1]/hygiene[a]
+        
+        #our glove status stays the same
+        gloves[a]<-gloves[a-1]
       }
-    }
-
+      
+    } #end of time loop
+      
+      
+    
     # -------------------------------- SAVE OUTPUT FOR SIMULATION FOR SINGLE PERSON ----------------------------------------------------------------------------------
-    exposure.frame.temp<-data.frame(handR=handR,handL=handL,hand=hand,hygiene=hygiene,behavior=behavior,SH=SH,transfer=transfer,surfconc=surfconc,airsurf=airsurf)
+    exposure.frame.temp<-data.frame(handR=handR,handL=handL,hand=hand,gloves=gloves,hygiene=hygiene,behavior=behavior,SH=SH,transfer=transfer,surfconc=surfconc,airsurf=airsurf)
     #print(exposure.frame)
     #save behavior sequence in list with position j
     behavior.total[[j]]<-behavior
     exposure.frame[[j]]<-exposure.frame.temp
     #remove behavior from environment so it's overwritten for next sequence created
     rm(behavior)
-  }
+    
+  } #end of iteration loop
   # --------------------------------- SAVE ALL OUTPUTS TO GLOBAL ENV --------------------------------------------------------------------------------------------------
   behavior.total<<-behavior.total
   exposure.frame<<-exposure.frame
   print("Order up! :)")
   
-}
+} #end of function
 
