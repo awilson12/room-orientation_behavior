@@ -350,7 +350,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
           behaviorcount<-1:length(behavior)
           
           #max count position of Gloves that have happened so far - 1 (previous moment before GlovesOn)
-          beforegloveson<- max(behaviorcount[behavior=="Gloves" & behaviorcount <=a]) - 1
+          beforegloveson<- max(behaviorcount[behavior=="Gloves" & behaviorcount <a]) - 1
           handR[a]<-handR[beforegloveson]
           handL[a]<-handL[beforegloveson]
           
