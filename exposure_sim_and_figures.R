@@ -1,29 +1,29 @@
 #--------------------#5  Comparison of estimated exposures for different types of care and room orientations ----------------------------------------------------------------------------------------------
 
 #running function for left and right room orientation - IV care
-behavior.sim(room.orientation = "left",caretype = "IV",numsequence = 1000)
+behavior.sim(room.orientation = "left",caretype = "IV",numsequence = 1000, airsurf=TRUE)
 seq.IV.left<-behavior.total
 exposure.IV.left<-exposure.frame
 
-behavior.sim(room.orientation = "right",caretype = "IV",numsequence = 1000)
+behavior.sim(room.orientation = "right",caretype = "IV",numsequence = 1000, airsurf=TRUE)
 seq.IV.right<-behavior.total
 exposure.IV.right<-exposure.frame
 
 # running function for left and right room orientation - Obs care
-behavior.sim(room.orientation = "left",caretype = "Obs",numsequence = 1000)
+behavior.sim(room.orientation = "left",caretype = "Obs",numsequence = 1000, airsurf=TRUE)
 seq.Obs.left<-behavior.total
 exposure.Obs.left<-exposure.frame
 
-behavior.sim(room.orientation = "right",caretype = "Obs",numsequence = 1000)
+behavior.sim(room.orientation = "right",caretype = "Obs",numsequence = 1000, airsurf=TRUE)
 seq.Obs.right<-behavior.total
 exposure.Obs.right<-exposure.frame
 
 # running function for left and right room orientation - Doctors' rounds
-behavior.sim(room.orientation = "left",caretype = "Rounds",numsequence = 1000)
+behavior.sim(room.orientation = "left",caretype = "Rounds",numsequence = 1000, airsurf=TRUE)
 seq.Rounds.left<-behavior.total
 exposure.Rounds.left<-exposure.frame
 
-behavior.sim(room.orientation = "right",caretype = "Rounds",numsequence = 1000)
+behavior.sim(room.orientation = "right",caretype = "Rounds",numsequence = 1000, airsurf=TRUE)
 seq.Rounds.right<-behavior.total
 exposure.Rounds.right<-exposure.frame
 

@@ -8,7 +8,7 @@ lambda<-lambda$X1
 
 #-------------------------  Function for estimating behavior sequences and viral exposure -------------------------------------------------------------------------------
 
-behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs","Rounds"),numsequence){
+behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs","Rounds"),numsequence,airsurf=TRUE){
    set.seed(34)
   
  
@@ -109,52 +109,61 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     
     Patient.1<-c(estimated.patient.1)
     
+    #if we're interested in effect of air flow differences AND behaviour differences in the room...
+    if (airsurf==TRUE){
+      
+      #orientation 2 (left-facing)
+      
+      #Farpatient (door)-------------------------
+      
+      #door
+      particle.door.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]
+      SA.door.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]
+      estimated.door.2<-estimated.particle*particle.door.2/SA.door.2
+      
+      #Nearpatient (trolley, bed, chair, desk)-----------------
+      
+      #trolley (sidetable)
+      particle.trolley.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==2]
+      SA.trolley.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==2]
+      estimated.trolley.2<-estimated.particle*particle.trolley.2/SA.trolley.2
+      
+      #bed
+      particle.bed.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==2]
+      SA.bed.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==2]
+      estimated.bed.2<-estimated.particle*particle.bed.2/SA.bed.2
+      
+      #chair
+      particle.chair.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==2]
+      SA.chair.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="chair"& ANSYS$ORIENTATION==2]
+      estimated.chair.2<-estimated.particle*particle.chair.2/SA.chair.2
+      
+      #desk
+      particle.desk.2<-ANSYS$CO2[ANSYS$X1=="desk" & ANSYS$Orientation==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==2]
+      SA.desk.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==2]
+      estimated.desk.2<-estimated.particle*particle.desk.2/SA.desk.2
+      
+      #patient (rest of patient, face) -------------------------------
+      particle.patient.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==2]
+      SA.patient.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==2]
+      estimated.patient.2<-estimated.particle*particle.patient.2/SA.patient.2
+      
+      
+    }else{
+      #otherwise, we assume same deposition pattern as right-facing
+      estimated.door.2<-estimated.door.1
+      estimated.trolley.2<-estimated.trolley.1
+      estimated.bed.2<-estimated.bed.1
+      eestimated.chair.2<-estimated.chair.1
+      estimated.desk.2<-estimated.desk.1
+      estimated.patient.2<-estimated.patient.1
+    }
     
-    #orientation 2 (left-facing)
-    
-    #Farpatient (door)-------------------------
-    
-    #door
-    particle.door.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]
-    SA.door.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]
-    estimated.door.2<-estimated.particle*particle.door.2/SA.door.2
     
     Farpatient.2<-estimated.door.2
-    
-    #Nearpatient (trolley, bed, chair, desk)-----------------
-    
-    #trolley (sidetable)
-    particle.trolley.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==2]
-    SA.trolley.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==2]
-    estimated.trolley.2<-estimated.particle*particle.trolley.2/SA.trolley.2
-    
-    #bed
-    particle.bed.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==2]
-    SA.bed.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==2]
-    estimated.bed.2<-estimated.particle*particle.bed.2/SA.bed.2
-    
-    #chair
-    particle.chair.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==2]
-    SA.chair.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="chair"& ANSYS$ORIENTATION==2]
-    estimated.chair.2<-estimated.particle*particle.chair.2/SA.chair.2
-    
-    #desk
-    particle.desk.2<-ANSYS$CO2[ANSYS$X1=="desk" & ANSYS$Orientation==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==2]
-    SA.desk.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==2]
-    estimated.desk.2<-estimated.particle*particle.desk.2/SA.desk.2
-    
     Nearpatient.2<-c(estimated.trolley.2,estimated.bed.2,estimated.chair.2,estimated.desk.2)
-    
-    # Out (door) ---------------------------------------------
-    
-    out.2<-estimated.door.2
-    
-    #patient (rest of patient, face) -------------------------------
-    particle.patient.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==2]
-    SA.patient.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==2]
-    estimated.patient.2<-estimated.particle*particle.patient.2/SA.patient.2
-    
     Patient.2<-c(estimated.patient.2)
+    out.2<-estimated.door.2
     
     #----------------------------------------------------------------------------------------------------------------------
     
@@ -347,7 +356,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     }
 
     # -------------------------------- SAVE OUTPUT FOR SIMULATION FOR SINGLE PERSON ----------------------------------------------------------------------------------
-    exposure.frame.temp<-data.frame(handR=handR,handL=handL,hand=hand,hygiene=hygiene,behavior=behavior,SH=SH,transfer=transfer,surfconc=surfconc)
+    exposure.frame.temp<-data.frame(handR=handR,handL=handL,hand=hand,hygiene=hygiene,behavior=behavior,SH=SH,transfer=transfer,surfconc=surfconc,airsurf=airsurf)
     #print(exposure.frame)
     #save behavior sequence in list with position j
     behavior.total[[j]]<-behavior
