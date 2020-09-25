@@ -1,11 +1,6 @@
 #Markov chain piece
 
 
-#read in csv file for transfer efficiencies
-library(readr)
-lambda<-read_csv("lambda.csv",col_names=FALSE)
-lambda<-lambda$X1
-
 #read in behaviour data
 movsdf.rbind<-read.csv('movsdf.rbind_orientationcorrected.csv')
 

@@ -1,6 +1,10 @@
 # Amanda Wilson and Marco-Felipe King
 # University of Arizona and Univeristy of Leeds collaboration
 
+#read in csv file for transfer efficiencies
+lambda<-read_csv("lambda.csv",col_names=FALSE)
+lambda<-lambda$X1
+
 
 #-------------------------  Function for estimating behavior sequences and viral exposure -------------------------------------------------------------------------------
 
@@ -10,7 +14,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
  
   #Behavior model section
 
-    sample.space<-c("Alcohol","Equipment","FarPatient","GlovesOff","GlovesOn","HygieneInside","In","NearPatient","Out","Patient")
+  sample.space<-c("Alcohol","Equipment","FarPatient","GlovesOff","GlovesOn","HygieneInside","In","NearPatient","Out","Patient")
   
   #will save output sequences in behavior.total
   behavior.total<-list() #creating a list to store behaviors
@@ -59,6 +63,10 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     
     
     #Farpatient (desk)-------------------------
+    
+    ANSYS$ORIENTATION[ANSYS$ORIENTATION=="Right-facing"]<-1
+    ANSYS$ORIENTATION[ANSYS$ORIENTATION=="Left-facing"]<-2
+    
     
     #desk
     particle.desk.1<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==1]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==1]
