@@ -28,25 +28,26 @@ seq.Rounds.right<-behavior.total
 exposure.Rounds.right<-exposure.frame
 
 # example plots
-
-handconc<-c(exposure.Obs.right[[2]]$handR,exposure.Obs.right[[2]]$handL)
-time<-c(rep(1:length(exposure.Obs.right[[2]]$handR),2))
-behavior<-rep(exposure.Obs.right[[2]]$behavior,2)
+person<-7
+handconc<-c(exposure.IV.left[[person]]$handR,exposure.IV.left[[person]]$handL)
+time<-c(rep(1:length(exposure.IV.left[[person]]$handR),2))
+behavior<-rep(exposure.IV.left[[person]]$behavior,2)
 hand<-c(rep("right",length(handconc)/2),rep("left",length(handconc)/2))
 frame.1<-data.frame(handconc=handconc,behavior=behavior,hand=hand,time=time)
 
 library(ggplot2)
 windows()
 ggplot(data=frame.1,aes(x=time,y=handconc,group=hand))+
-  geom_line(aes(linetype=hand),size=1)+geom_point(aes(colour=behavior),size=3)+
-  scale_y_continuous(name=expression("Viral particls/cm"^2*"on hands"))+
+  geom_line(aes(linetype=hand),size=1.5)+geom_point(aes(colour=behavior),size=5)+
+  scale_y_continuous(name=expression("Viral particles/cm"^2*"on hands"))+
   scale_x_continuous(name="Number of contacts")+
   scale_linetype(name="Hand")+
   scale_color_discrete(name="Behaviour")+
   theme_pubr()+
-  annotate("text",x=25,y=4e-5,label="Hand Hygiene Event",size=6)+
-  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
-        legend.text=element_text(size=15),legend.title=element_text(size=15),
+  annotate("text",x=68,y=4e-5,label="Glove doffing",size=6)+
+  annotate("segment", x = 70, xend = 65, y = 3.6e-5, yend = 3.6e-5, colour = "black", size=1, arrow=arrow())+
+   theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
+        legend.text=element_text(size=20),legend.title=element_text(size=20),
         legend.box="vertical")
 
 

@@ -7,8 +7,6 @@ movsdf.rbind<-read.csv('movsdf.rbind_orientationcorrected.csv')
 
 #####
 # 2.3 Aggregating surfaces into categories for Transition Matrices
-detach("package:dplyr", unload = TRUE)
-library(plyr)
 movsdf.rbind$SurfaceCategories<-revalue(movsdf.rbind$Surface,c("AlcOutside"="HygieneOutside",
                                                                "In"="In",
                                                                "Door"="FarPatient",

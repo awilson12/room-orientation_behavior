@@ -154,7 +154,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
       estimated.door.2<-estimated.door.1
       estimated.trolley.2<-estimated.trolley.1
       estimated.bed.2<-estimated.bed.1
-      eestimated.chair.2<-estimated.chair.1
+      estimated.chair.2<-estimated.chair.1
       estimated.desk.2<-estimated.desk.1
       estimated.patient.2<-estimated.patient.1
     }
