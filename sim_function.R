@@ -222,7 +222,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     transfer[behavior=="Equipment" | behavior=="FarPatient" | behavior=="In" | behavior=="Out" | behavior=="NearPatient"|behavior=="HygieneInside"]<-sample(lambda,length(    transfer[behavior=="Equipment" | behavior=="FarPatient" | behavior=="In" | behavior=="Out" | behavior=="NearPatient"|behavior=="HygieneInside"]))
     
     #transfer efficiency patient
-    transfer[behavior=="Patient"]<-0.02 #PLACE HOLDER... LIT REIVEW
+    transfer[behavior=="Patient"]<-runif(length(transfer[behavior=="Patient"]),0.0001,0.406)
     
     #-------------- SURFACE CONCENTRATIONS -----------------------------------------------------------------------------
     
@@ -291,7 +291,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     
     #hand hygiene
     hygiene<-rep(NA,length(behavior))
-    hygiene[behavior=="Alcohol"]<-10^3
+    hygiene[behavior=="Alcohol"]<-runif(length(hygiene[behavior=="Alcohol"]),10^0.15,10^2.07)
     
     #-------------- EXPOSURE SIMULATION ------------------------------------------------------------------------------
     
@@ -316,6 +316,11 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
         
         #then our glove status stays the same
         gloves[a]<-gloves[a-1]
+        
+        if (gloves[a]==1){
+          #if wearing gloves, we adjust TE
+          transfer[a]<-transfer[a]*0.61
+        }
         
         #and if the right hand is used...
         if(hand[a]=="right"){
