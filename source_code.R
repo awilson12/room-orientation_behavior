@@ -22,12 +22,17 @@ suppressMessages(suppressWarnings(source("exposure_sim_and_figures.R")))
 
 data.all.airsurf<-data.all
 data.all.airsurf$model<-"Deposition + Behavioural Differences"
+total.airsurf<-total
+total.airsurf$model<-"Deposition + Behavioural Differences"
+total.airsurf<-subset(total.airsurf,select=-c(lossamount))
 
 #run sims and analysis for figure/results generation
 suppressMessages(suppressWarnings(source("exposure_sim_and_figures_airsurf_FALSE.R")))
 data.all$model<-"Behavioural Differences Only"
+total$model<-"Behavioural Differences Only"
 
 data.all.combined<-rbind(data.all.airsurf,data.all)
+total.all<-rbind(total.airsurf,total)
 
 windows()
 ggplot(data=data.all.combined)+
@@ -42,4 +47,7 @@ ggplot(data=data.all.combined)+
   theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
         legend.text=element_text(size=15),legend.title=element_text(size=15),
         legend.box="vertical",strip.text = element_text(size=15))
+
+suppressMessages(suppressWarnings(source("sensitivity_analysis.R")))
+
 
