@@ -140,7 +140,7 @@ for (i in 1:6000){
       total$numcontact<-c(1:length(total$handR))
       total$run<-rep(i,length(total$handR))
       total$loss[1]<-NA
-      total$lossamount<-NA
+      total$lossamount[1]<-NA
       if(length(total$behavior[total$behavior=="Alcohol" | total$behavior=="Gloves"])>0){
         total$alcohol<-rep("yes",length(total$behavior))
       }else{
@@ -149,7 +149,7 @@ for (i in 1:6000){
       for (j in 2:length(total$behavior)){
         if(total$handR[j-1] > total$handR[j]){
           total$loss[j]<-"yes"
-          total$lossamount<-total$handR[j]-total$handR[j-1]
+          total$lossamount[j]<-total$handR[j-1]-total$handR[j]
         }else{
           total$loss[j]<-"no"
           
@@ -163,7 +163,7 @@ for (i in 1:6000){
       frame$numcontact<-c(1:length(frame$handR))
       frame$run<-rep(i,length(frame$handR))
       frame$loss[1]<-NA
-      frame$lossamount<-NA
+      frame$lossamount[1]<-NA
       if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
         frame$alcohol<-rep("yes",length(frame$behavior))
       }else{
@@ -172,7 +172,7 @@ for (i in 1:6000){
       for (j in 2:length(frame$behavior)){
         if(frame$handR[j-1] > frame$handR[j]){
           frame$loss[j]<-"yes"
-          frame$lossamount<-total$handR[j]-total$handR[j-1]
+          frame$lossamount[j]<-frame$handR[j-1]-frame$handR[j]
         }else{
           frame$loss[j]<-"no"
         }
@@ -186,7 +186,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
-    frame$lossamount<-NA
+    frame$lossamount[1]<-NA
     if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
@@ -195,7 +195,7 @@ for (i in 1:6000){
     for (j in 2:length(frame$behavior)){
       if(frame$handR[j-1] > frame$handR[j]){
         frame$loss[j]<-"yes"
-        frame$lossamount<-total$handR[j]-total$handR[j-1]
+        frame$lossamount[j]<-frame$handR[j-1]-frame$handR[j]
       }else{
         frame$loss[j]<-"no"
       }
@@ -209,7 +209,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
-    frame$lossamount<-NA
+    frame$lossamount[1]<-NA
     if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
@@ -218,7 +218,7 @@ for (i in 1:6000){
     for (j in 2:length(frame$behavior)){
       if(frame$handR[j-1] > frame$handR[j]){
         frame$loss[j]<-"yes"
-        frame$lossamount<-total$handR[j]-total$handR[j-1]
+        frame$lossamount[j]<-frame$handR[j-1]-frame$handR[j]
       }else{
         frame$loss[j]<-"no"
       }
@@ -232,7 +232,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
-    frame$lossamount<-NA
+    frame$lossamount[1]<-NA
     if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
@@ -241,7 +241,7 @@ for (i in 1:6000){
     for (j in 2:length(frame$behavior)){
       if(frame$handR[j-1] > frame$handR[j]){
         frame$loss[j]<-"yes"
-        frame$lossamount<-total$handR[j]-total$handR[j-1]
+        frame$lossamount[j]<-frame$handR[j-1]-frame$handR[j]
       }else{
         frame$loss[j]<-"no"
       }
@@ -255,7 +255,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
-    frame$lossamount<-NA
+    frame$lossamount[1]<-NA
     if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
@@ -264,7 +264,7 @@ for (i in 1:6000){
     for (j in 2:length(frame$behavior)){
       if(frame$handR[j-1] > frame$handR[j]){
         frame$loss[j]<-"yes"
-        frame$lossamount<-total$handR[j]-total$handR[j-1]
+        frame$lossamount[j]<-frame$handR[j-1]-frame$handR[j]
       }else{
         frame$loss[j]<-"no"
       }
@@ -278,7 +278,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
-    frame$lossamount<-NA
+    frame$lossamount[1]<-NA
     if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
@@ -287,7 +287,7 @@ for (i in 1:6000){
     for (j in 2:length(frame$behavior)){
       if(frame$handR[j-1] > frame$handR[j]){
         frame$loss[j]<-"yes"
-        frame$lossamount<-total$handR[j]-total$handR[j-1]
+        frame$lossamount[j]<-frame$handR[j-1]-frame$handR[j]
       }else{
         frame$loss[j]<-"no"
       }
@@ -301,7 +301,13 @@ for (i in 1:6000){
     total<-total
   }else{
     total<-rbind(total,frame)
+    
+    if(i==2){
+      #print(total)
+    }
   }
+  
+  #print(summary(total$lossamount[!is.na(total$lossamount)]))
 }
 
 #-----extract hand hygiene info-----------------
@@ -487,6 +493,16 @@ nearpatient.maxyes<-rep(NA,max(total$numcontact)-1)
 farpatient.maxyes<-rep(NA,max(total$numcontact)-1)
 gloveson.maxyes<-rep(NA,max(total$numcontact)-1)
 
+in.meanchange<-rep(NA,max(total$numcontact)-1)
+out.meanchange<-rep(NA,max(total$numcontact)-1)
+patient.meanchange<-rep(NA,max(total$numcontact)-1)
+hygieneinside.meanchange<-rep(NA,max(total$numcontact)-1)
+equipment.meanchange<-rep(NA,max(total$numcontact)-1)
+alcohol.meanchange<-rep(NA,max(total$numcontact)-1)
+nearpatient.meanchange<-rep(NA,max(total$numcontact)-1)
+farpatient.meanchange<-rep(NA,max(total$numcontact)-1)
+gloves.meanchange<-rep(NA,max(total$numcontact)-1)
+
 for(j in 1:6){
   for (i in 2:max(total$numcontact)){
     in.maxyes[i]<-length(total$loss[total$loss=="yes" & total$behavior=="In" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
@@ -498,6 +514,18 @@ for(j in 1:6){
     nearpatient.maxyes[i]<-length(total$loss[total$loss=="yes" & total$behavior=="NearPatient" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
     farpatient.maxyes[i]<-length(total$loss[total$loss=="yes" & total$behavior=="FarPatient" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
     gloveson.maxyes[i]<-length(total$loss[total$loss=="yes" & total$behavior=="Gloves" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+  
+    in.meanchange[i]<-mean(total$lossamount[total$loss=="yes" & total$behavior=="In" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+    out.meanchange[i]<-mean(total$lossamount[total$loss=="yes" & total$behavior=="Out" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+    patient.meanchange[i]<-mean(total$lossamount[total$loss=="yes" & total$behavior=="Patient" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+    hygieneinside.meanchange[i]<-mean(total$lossamount[total$loss=="yes" & total$behavior=="HygieneInside" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+    equipment.meanchange[i]<-mean(total$lossamount[total$loss=="yes" & total$behavior=="Equipment" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+    alcohol.meanchange[i]<-mean(total$lossamount[total$loss=="yes" & total$behavior=="Alcohol" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+    nearpatient.meanchange[i]<-mean(total$lossamount[total$loss=="yes" & total$behavior=="NearPatient" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+    farpatient.meanchange[i]<-mean(total$lossamount[total$loss=="yes" & total$behavior=="FarPatient" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+    gloves.meanchange[i]<-mean(total$lossamount[total$loss=="yes" & total$behavior=="Gloves" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+    
+    
   }
   if(j==1){
     in.maxyes.total<-in.maxyes
@@ -511,6 +539,18 @@ for(j in 1:6){
     gloveson.maxyes.total<-gloveson.maxyes
     orientation.total<-rep(combo[[j]][2],max(total$numcontact))
     care.total<-rep(combo[[j]][1],max(total$numcontact))
+    
+    
+    in.meanchange.total<-in.meanchange
+    out.meanchange.total<-out.meanchange
+    patient.meanchange.total<-patient.meanchange
+    hygieneinside.meanchange.total<-hygieneinside.meanchange
+    equipment.meanchange.total<-equipment.meanchange
+    alcohol.meanchange.total<-alcohol.meanchange
+    nearpatient.meanchange.total<-nearpatient.meanchange
+    farpatient.meanchange.total<-farpatient.meanchange
+    gloves.meanchange.total<-gloves.meanchange
+    
   }else{
     in.maxyes.total<-c(in.maxyes.total,in.maxyes)
     out.maxyes.total<-c(out.maxyes.total,out.maxyes)
@@ -521,6 +561,18 @@ for(j in 1:6){
     nearpatient.maxyes.total<-c(nearpatient.maxyes.total,nearpatient.maxyes)
     farpatient.maxyes.total<-c(farpatient.maxyes.total,farpatient.maxyes)
     gloveson.maxyes.total<-c(gloveson.maxyes.total,gloveson.maxyes)
+    
+    in.meanchange.total<-c(in.meanchange.total, in.meanchange)
+    out.meanchange.total<-c(out.meanchange.total, out.meanchange)
+    patient.meanchange.total<-c(patient.meanchange.total, patient.meanchange)
+    hygieneinside.meanchange.total<-c(hygieneinside.meanchange.total, hygieneinside.meanchange)
+    equipment.meanchange.total<-c(equipment.meanchange.total, equipment.meanchange)
+    alcohol.meanchange.total<-c(alcohol.meanchange.total, alcohol.meanchange)
+    nearpatient.meanchange.total<-c(nearpatient.meanchange.total,nearpatient.meanchange)
+    farpatient.meanchange.total<-c(farpatient.meanchange.total, farpatient.meanchange)
+    gloves.meanchange.total<-c(gloves.meanchange.total, gloves.meanchange)
+    
+    
     
     orientation<-rep(combo[[j]][2],max(total$numcontact))
     care<-rep(combo[[j]][1],max(total$numcontact))
@@ -535,6 +587,10 @@ for(j in 1:6){
 totalyes<-c(in.maxyes.total,out.maxyes.total,patient.maxyes.total,hygieneinside.maxyes.total,
             equipment.maxyes.total,alcohol.maxyes.total,nearpatient.maxyes.total,
             farpatient.maxyes.total,gloveson.maxyes.total)
+
+totalchange<-c(in.meanchange.total,out.meanchange.total,patient.meanchange.total,hygieneinside.meanchange.total,
+               equipment.meanchange.total,alcohol.meanchange.total,nearpatient.meanchange.total,
+               farpatient.meanchange.total,gloves.meanchange.total)
 length.all<-length(in.maxyes.total)
 behavior<-c(rep("In",length.all),rep("Out",length.all),rep("Patient",length.all),rep("Hygiene Inside",length.all),
             rep("Equipment",length.all),rep("Alcohol",length.all),rep("Near Patient",length.all),rep("Far Patient",length.all),
@@ -543,20 +599,34 @@ numcount<-rep(1:max(total$numcontact),54)
 care.total<-rep(care.total,9)
 orientation.total<-rep(orientation.total,9)
 
-frame.compare.yes.behavior<-data.frame(totalyes=totalyes,behavior=behavior,care.total=care.total,orientation.total=orientation.total,numcount=numcount)
+frame.compare.yes.behavior<-data.frame(totalyes=totalyes,behavior=behavior,care.total=care.total,orientation.total=orientation.total,numcount=numcount,totalchange=totalchange)
 frame.compare.yes.behavior$orientation.total[frame.compare.yes.behavior$orientation.total=="left"]<-"Left-facing"
 frame.compare.yes.behavior$orientation.total[frame.compare.yes.behavior$orientation.total=="right"]<-"Right-facing"
 
 
 #frame.compare.yes.behavior<-frame.compare.yes.behavior[frame.compare.yes.behavior$care.total=="IV",]
+windows()
 ggplot(data=frame.compare.yes.behavior[frame.compare.yes.behavior$numcount<=50 & frame.compare.yes.behavior$totalyes>0 & frame.compare.yes.behavior$numcount>1,],aes(numcount,behavior))+
   geom_tile(aes(fill=totalyes),colour="black")+
   scale_fill_gradient(low="light blue",high="black",name="Number of Decreases")+scale_x_continuous(name="Contact Number")+
   scale_y_discrete("Behaviour")+facet_wrap(orientation.total~care.total)+theme_pubr()+
   theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
         legend.text=element_text(size=20),legend.title=element_text(size=20),
-        legend.box="vertical",strip.text = element_text(size=20))+
-  guides(fill=guide_colorbar(barwidth=10,barheight=1))
+        legend.box="vertical",strip.text = element_text(size=20),title=element_text(size=20))+
+  guides(fill=guide_colorbar(barwidth=10,barheight=1))+ggtitle("A")
+
+windows()
+frame.compare.temp<-frame.compare.yes.behavior[!is.na(frame.compare.yes.behavior$totalchange),]
+ggplot(data=frame.compare.temp[frame.compare.temp$numcount<=50 & frame.compare.temp$totalyes>0 & frame.compare.temp$numcount>1,],aes(numcount,behavior))+
+  geom_tile(aes(fill=totalchange),colour="black")+
+  scale_fill_gradient2(low="light blue",high="black",name=expression("log"[10]*phantom(x)*"Mean Change in Concentration"))+scale_x_continuous(name="Contact Number")+
+  scale_y_discrete("Behaviour")+facet_wrap(orientation.total~care.total)+theme_pubr()+
+  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
+        legend.text=element_text(size=20),legend.title=element_text(size=20),
+        legend.box="vertical",strip.text = element_text(size=20),title=element_text(size=20))+
+  guides(fill=guide_colorbar(barwidth=10,barheight=1))+ggtitle("B")
+
+
 
 
 
