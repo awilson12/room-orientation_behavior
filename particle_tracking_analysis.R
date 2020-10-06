@@ -13,10 +13,10 @@ ANSYS$FRACTION<-(ANSYS$NUMBER.PARTICLE/ANSYS$TOTAL.PARTICLE)*100
 
 
 A<-ggplot(data=ANSYS,aes(x=SURFACE,y=FRACTION,fill=SURFACE))+
-  scale_y_continuous(name="Percent of Deposited Particles")+
+  scale_y_continuous(name="Percent of Deposited Particles",limits = c(0,85))+
   scale_x_discrete(name="Surface")+
   geom_bar(stat="identity",color="black")+
-  geom_text(aes(label=round(FRACTION,2)), position=position_dodge(width=0.1), vjust=0.5,size=6)+
+  geom_text(aes(label=round(FRACTION,2)), position=position_dodge(width=0.5), hjust=-0.1, vjust=0.5,size=6)+
   coord_flip()+
   scale_fill_manual(values=c("#0099CC","#006666","#99FFCC","#00CC99","#9966FF","#99CCFF",
                                "#FF99FF"))+
@@ -26,12 +26,12 @@ A<-ggplot(data=ANSYS,aes(x=SURFACE,y=FRACTION,fill=SURFACE))+
         axis.text = element_text(size=15),legend.position="none")+ggtitle("A")
 
 B<-ggplot(data=ANSYS,aes(x=SURFACE,y=SURFACEAREAm2/10000,fill=SURFACE))+
-  scale_y_continuous(name=expression("Surface Area (m"^2*")"))+
+  scale_y_continuous(name=expression("Surface Area (m"^2*")"),limits=c(0,11))+
   scale_x_discrete(name="Surface")+
   geom_bar(stat="identity",color="black")+
   scale_fill_manual(values=c("#0099CC","#006666","#99FFCC","#00CC99","#9966FF","#99CCFF",
                              "#FF99FF"))+
-  geom_text(aes(label=round(SURFACEAREAm2/10000,2)), position=position_dodge(width=0.1), vjust=0.5,size=6)+
+  geom_text(aes(label=round(SURFACEAREAm2/10000,2)), position=position_dodge(width=0.5), hjust=-0.1, vjust=0.5,size=6)+
   coord_flip()+
   theme_pubr()+
   theme(strip.text = element_text(size=15),axis.title = element_text(size=15),
