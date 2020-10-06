@@ -67,22 +67,145 @@ plot.frame<-data.frame(TE=mean.TE,SH=mean.SH,surf=mean.surf,eff=mean.efficacy,
 
 #------- scatter plots ------------------------------------------------------
 
-ggplot(plot.frame,aes(x=TE,y=mean.hands))+geom_point()+
-  geom_smooth(method="loess")+stat_cor(method="spearman")
+ggplot(plot.frame,aes(x=TE,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name="Transfer Efficiency")+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
-cor(plot.frame$TE,plot.frame$meanhands,method=c("spearman"))
+ggplot(plot.frame,aes(x=SH,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name="FSA")+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
-ggplot(plot.frame,aes(x=SH,y=mean.hands))+geom_point()+
-  geom_smooth(method="loess")+stat_cor(method="spearman")
+ggplot(plot.frame,aes(x=log10(surf),y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name=expression("Log"[10]*phantom(x)*"Concentration on Surfaces"))+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
-ggplot(plot.frame,aes(x=log10(surf),y=mean.hands))+geom_point()+
-  geom_smooth(method="loess")+stat_cor(method="spearman")
+ggplot(plot.frame,aes(x=eff,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name="Hand Sanitiser Efficacy")+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
-ggplot(plot.frame,aes(x=eff,y=mean.hands))+geom_point()+
-  geom_smooth(method="loess")+stat_cor(method="spearman")
+ggplot(plot.frame,aes(x=count.farpatient,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name="Number of Far Patient Contacts")+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
-ggplot(plot.frame,aes(x=count.farpatient,y=mean.hands))+geom_point()+
-  geom_smooth(method="loess")+stat_cor(method="spearman")
+ggplot(plot.frame,aes(x=count.nearpatient,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name="Number of Near Patient Contacts")+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
+
+ggplot(plot.frame,aes(x=count.equipment,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name="Number of Equipment Contacts")+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
+
+ggplot(plot.frame,aes(x=count.patient,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name="Number of Patient Contacts")+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
+
+
+ggplot(plot.frame,aes(x=count.hygieneinside,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name="Number of Hygiene Surface Contacts")+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
+
+ggplot(plot.frame,aes(x=count.gloves,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name="Number of Glove Donning/Doffing Events")+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
+
+
+ggplot(plot.frame,aes(x=count.alcohol,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
+  geom_smooth(method="loess",size=2,color="black")+
+  theme_pubr()+
+  scale_x_continuous(name="Number of Hand Sanitiser Events")+
+  scale_linetype_discrete(name="Care Type")+
+  scale_y_continuous(name="Mean Concentration on Hands")+
+  scale_color_discrete(name="Care Type")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
+
+
+plot.frame$patient<-NA
+plot.frame$patient[plot.frame$count.patient<1]<-"No patient contacts"
+plot.frame$patient[plot.frame$count.patient>=1]<-"At least 1 patient contact"
+
+ggplot(plot.frame,aes(x=orientation,y=log10(mean.hands),group=interaction(care,orientation,model,patient),fill=patient))+
+  geom_violin(alpha=0.5,draw_quantiles = c(0.25,0.5,0.75))+
+  theme_pubr()+
+  scale_fill_discrete(name="")+
+  scale_x_discrete(name="Room Orientation",labels=c("Left-facing","Right-facing"))+
+  scale_y_continuous(name=expression("Log"[10]*phantom(x)*"Mean Conc. on Hands"))+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(model~care,scales="free")
+
+
 
 #----------------------------------------------------------------------------
 
@@ -107,7 +230,7 @@ ggplot(data=melted_cormat,aes(x=Var1,y=Var2,fill=value))+
   scale_y_discrete(name="",labels=heatmaplabel)
 
 #-------bioaerosol + behaviour
-plot.frame.temp<-plot.frame[plot.frame$model=="Deposition + Behavioural Differences",]
+plot.frame.temp<-plot.frame[plot.frame$orientation=="left",]
 
 plot.frame.temp.1<-plot.frame.temp[plot.frame.temp$care=="IV",]
 
@@ -158,7 +281,73 @@ C<-ggplot(data=melted_cormat,aes(x=Var1,y=Var2,fill=value))+
   scale_y_discrete(name="",labels=heatmaplabel)+ggtitle("Doctor's Rounds")
 
 
-ggarrange(A,B,C,common.legend = TRUE)
+windows()
+A
+windows()
+B
+windows()
+C
+
+plot.frame.temp<-plot.frame[plot.frame$orientation=="right",]
+
+plot.frame.temp.1<-plot.frame.temp[plot.frame.temp$care=="IV",]
+
+plot.frame.cor<-subset(plot.frame.temp.1,select=c(-model,-orientation,-care,-eff))
+cormat<-round(cor(plot.frame.cor,method="spearman"),2)
+melted_cormat<-melt(cormat)
+
+A<-ggplot(data=melted_cormat,aes(x=Var1,y=Var2,fill=value))+
+  geom_tile()+geom_text(aes(x=Var1,y=Var2,label=value),color="black",size=5)+
+  scale_fill_gradient2(low="#33CCCC",mid="white",high="#FF9966",midpoint=0,name="Spearman Corr")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15),
+        axis.text.x=element_text(angle=45,hjust=1))+
+  scale_x_discrete(name="",labels=heatmaplabel)+
+  scale_y_discrete(name="",labels=heatmaplabel)+ggtitle("IV Care")
+
+plot.frame.temp.2<-plot.frame.temp[plot.frame.temp$care=="Obs",]
+
+plot.frame.cor<-subset(plot.frame.temp.2,select=c(-model,-orientation,-care,-eff))
+cormat<-round(cor(plot.frame.cor,method="spearman"),2)
+melted_cormat<-melt(cormat)
+
+B<-ggplot(data=melted_cormat,aes(x=Var1,y=Var2,fill=value))+
+  geom_tile()+geom_text(aes(x=Var1,y=Var2,label=value),color="black",size=5)+
+  scale_fill_gradient2(low="#33CCCC",mid="white",high="#FF9966",midpoint=0,name="Spearman Corr")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15),
+        axis.text.x=element_text(angle=45,hjust=1))+
+  scale_x_discrete(name="",labels=heatmaplabel)+
+  scale_y_discrete(name="",labels=heatmaplabel)+ggtitle("Observational Care")
+
+plot.frame.temp.3<-plot.frame.temp[plot.frame.temp$care=="Rounds",]
+
+plot.frame.cor<-subset(plot.frame.temp.3,select=c(-model,-orientation,-care,-eff))
+cormat<-round(cor(plot.frame.cor,method="spearman"),2)
+melted_cormat<-melt(cormat)
+
+C<-ggplot(data=melted_cormat,aes(x=Var1,y=Var2,fill=value))+
+  geom_tile()+geom_text(aes(x=Var1,y=Var2,label=value),color="black",size=5)+
+  scale_fill_gradient2(low="#33CCCC",mid="white",high="#FF9966",midpoint=0,name="Spearman Corr")+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15),
+        axis.text.x=element_text(angle=45,hjust=1))+
+  scale_x_discrete(name="",labels=heatmaplabel)+
+  scale_y_discrete(name="",labels=heatmaplabel)+ggtitle("Doctor's Rounds")
+
+
+
+windows()
+A
+windows()
+B
+windows()
+C
+
+
 
 
 
