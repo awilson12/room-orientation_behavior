@@ -618,13 +618,15 @@ ggplot(data=frame.compare.yes.behavior[frame.compare.yes.behavior$numcount<=50 &
 windows()
 frame.compare.temp<-frame.compare.yes.behavior[!is.na(frame.compare.yes.behavior$totalchange),]
 ggplot(data=frame.compare.temp[frame.compare.temp$numcount<=50 & frame.compare.temp$totalyes>0 & frame.compare.temp$numcount>1,],aes(numcount,behavior))+
-  geom_tile(aes(fill=totalchange),colour="black")+
-  scale_fill_gradient2(low="light blue",high="black",name=expression("log"[10]*phantom(x)*"Mean Change in Concentration"))+scale_x_continuous(name="Contact Number")+
+  geom_tile(aes(fill=log10(totalchange)),colour="black")+
+  scale_fill_gradient2(low="white",mid="light blue",high="black",midpoint=-7,name=expression("log"[10]*phantom(x)*"Mean Change in Concentration"))+scale_x_continuous(name="Contact Number")+
   scale_y_discrete("Behaviour")+facet_wrap(orientation.total~care.total)+theme_pubr()+
   theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
         legend.text=element_text(size=20),legend.title=element_text(size=20),
         legend.box="vertical",strip.text = element_text(size=20),title=element_text(size=20))+
-  guides(fill=guide_colorbar(barwidth=10,barheight=1))+ggtitle("B")
+  guides(fill=guide_colorbar(barwidth=20,barheight=1))+ggtitle("B")
+
+
 
 
 
