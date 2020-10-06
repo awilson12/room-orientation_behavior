@@ -35,17 +35,21 @@ behavior<-rep(exposure.IV.left[[person]]$behavior,2)
 hand<-c(rep("right",length(handconc)/2),rep("left",length(handconc)/2))
 frame.1<-data.frame(handconc=handconc,behavior=behavior,hand=hand,time=time)
 
-library(ggplot2)
 windows()
 ggplot(data=frame.1,aes(x=time,y=handconc,group=hand))+
   geom_line(aes(linetype=hand),size=1.5)+geom_point(aes(colour=behavior),size=5)+
   scale_y_continuous(name=expression("Viral particles/cm"^2*"on hands"))+
   scale_x_continuous(name="Number of contacts")+
   scale_linetype(name="Hand")+
-  scale_color_discrete(name="Behaviour")+
+  scale_color_manual(name="Behaviour",
+                     values=c("#99CCFF","#00CC99","#006666",
+                        "#FF99FF","#0099CC","#0033FF",
+                        "#9966FF","#99FFCC","#CCFF66"))+
   theme_pubr()+
   annotate("text",x=68,y=4e-5,label="Glove doffing",size=6)+
+  annotate("text",x=30,y=1e-5,label="Glove donning",size=6)+
   annotate("segment", x = 70, xend = 65, y = 3.6e-5, yend = 3.6e-5, colour = "black", size=1, arrow=arrow())+
+  annotate("segment", x = 31, xend = 28.5, y = 0.6e-5, yend = 0.1e-5, colour = "black", size=1, arrow=arrow())+
    theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
         legend.text=element_text(size=20),legend.title=element_text(size=20),
         legend.box="vertical")
@@ -122,22 +126,6 @@ merged$behavior[merged$behavior=="Alcohol"]<-"Hand Hygiene"
 merged$behavior[merged$behavior=="In"]<-"Entrance"
 merged$behavior[merged$behavior=="Out"]<-"Exit"
 
-#-------------------- FIGURES FOR U01 GRANT ------------------------------------------------------------------------------------------
-
-#ggplot(data=merged[merged$numcontact<20,])+geom_point(aes(x=numcontact,y=behavior,group=caretype,colour=caretype),size=3)+
-#  geom_step(aes(x=numcontact,y=behavior,group=caretype,colour=caretype),size=1)+
-#  facet_wrap(~caretype)+
-#  scale_x_continuous(name="Contact Number")+
-#  scale_y_discrete(name="Behavior")+theme_pubr(base_size=14,border=TRUE)+theme(legend.title=element_blank(),legend.position="none",strip.text=element_text(size=14))
-
-
-#ggplot(data=merged[merged$numcontact<20,])+geom_point(aes(x=numcontact,y=handR+handL,group=caretype,colour=behavior),size=3)+
-#  geom_step(aes(x=numcontact,y=handR+handL,group=caretype,colour=behavior),size=1)+
-#  facet_wrap(~caretype)+theme_pubr(base_size=14,border=TRUE)+theme(strip.text=element_text(size=14))+
-#  scale_y_continuous(name=expression("Concentration (CFU/cm"^2*") on Hands"),trans="log10")+
-#  scale_x_continuous(name="Contact Number")+
-#  scale_colour_discrete(name="Behavior")
-
 # ------------------ trends over course of contacts over all
 
 #one large data set with all results
@@ -152,7 +140,7 @@ for (i in 1:6000){
       total$numcontact<-c(1:length(total$handR))
       total$run<-rep(i,length(total$handR))
       total$loss[1]<-NA
-      if(length(total$behavior[total$behavior=="Alcohol" | total$behavior=="GlovesOn"])>0){
+      if(length(total$behavior[total$behavior=="Alcohol" | total$behavior=="Gloves"])>0){
         total$alcohol<-rep("yes",length(total$behavior))
       }else{
         total$alcohol<-rep("no",length(total$behavior))
@@ -172,7 +160,7 @@ for (i in 1:6000){
       frame$numcontact<-c(1:length(frame$handR))
       frame$run<-rep(i,length(frame$handR))
       frame$loss[1]<-NA
-      if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="GlovesOn"])>0){
+      if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
         frame$alcohol<-rep("yes",length(frame$behavior))
       }else{
         frame$alcohol<-rep("no",length(frame$behavior))
@@ -193,7 +181,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
-    if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="GlovesOn"])>0){
+    if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
       frame$alcohol<-rep("no",length(frame$behavior))
@@ -214,7 +202,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
-    if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="GlovesOn"])>0){
+    if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
       frame$alcohol<-rep("no",length(frame$behavior))
@@ -235,7 +223,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
-    if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="GlovesOn"])>0){
+    if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
       frame$alcohol<-rep("no",length(frame$behavior))
@@ -256,7 +244,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
-    if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="GlovesOn"])>0){
+    if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
       frame$alcohol<-rep("no",length(frame$behavior))
@@ -277,7 +265,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
-    if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="GlovesOn"])>0){
+    if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
       frame$alcohol<-rep("no",length(frame$behavior))
@@ -395,20 +383,6 @@ facing<-rep(c(rep("Left-facing",length(mean.IV.left)),rep("Right-facing",length(
 
 data.all<-data.frame(means=means,sd=sd,care=care,facing=facing,numcount=numcount)
 
-windows()
-ggplot(data=data.all)+
-  geom_ribbon(aes(x=numcount,ymin=means-sd*1.96/sqrt(1000),ymax=means+sd*1.96/sqrt(1000),group=care,fill=care),alpha=0.5)+
-  geom_line(aes(x=numcount,y=means,group=care,linetype=care,colour=care),size=1.5)+
-  scale_y_continuous(name="Mean Concentration on Right Hand")+
-  scale_x_continuous(name="Contact Number")+
-  scale_color_discrete(name="Care Type")+
-  scale_linetype_discrete(name="Care Type")+
-  scale_fill_discrete(name="Care Type")+
-  facet_wrap(~facing,ncol=1)+theme_pubr()+
-  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
-        legend.text=element_text(size=15),legend.title=element_text(size=15),
-        legend.box="vertical",strip.text = element_text(size=15))
-
 # ---------- Calculate average breakdown of contacts per run 
 
 prop.farpatient<-rep(0,6)
@@ -438,7 +412,7 @@ for (i in 1:6){
   prop.equipment[i]<-length(total$behavior[total$behavior=="Equipment"  & total$care==combination[1] & total$orientation==combination[2]])/all.behaviors
   prop.hygiene[i]<-length(total$behavior[total$behavior=="HygieneInside"  & total$care==combination[1] & total$orientation==combination[2]])/all.behaviors
   prop.alcohol[i]<-length(total$behavior[total$behavior=="Alcohol"  & total$care==combination[1] & total$orientation==combination[2]])/all.behaviors
-  prop.gloves[i]<-length(total$behavior[total$behavior=="GlovesOn"  & total$care==combination[1] & total$orientation==combination[2]])/all.behaviors
+  prop.gloves[i]<-length(total$behavior[total$behavior=="Gloves"  & total$care==combination[1] & total$orientation==combination[2]])/all.behaviors
   prop.in[i]<-length(total$behavior[total$behavior=="In"  & total$care==combination[1] & total$orientation==combination[2]])/all.behaviors
   prop.out[i]<-length(total$behavior[total$behavior=="Out"  & total$care==combination[1] & total$orientation==combination[2]])/all.behaviors
   prop.patient[i]<-length(total$behavior[total$behavior=="Patient"  & total$care==combination[1] & total$orientation==combination[2]])/all.behaviors
@@ -447,10 +421,20 @@ for (i in 1:6){
 percentage<-c(prop.farpatient,prop.nearpatient,prop.equipment,prop.hygiene,prop.alcohol,prop.gloves,prop.in,prop.out,prop.patient)
 behavior<-c(rep("Far Patient",6),rep("Near Patient",6),rep("Equipment",6),rep("Hygiene",6),rep("Alcohol",6),rep("Gloves",6),rep("In",6),rep("Out",6),rep("Patient",6))
 care<-c(rep(c("IV","IV","Obs","Obs","Rounds","Rounds"),9))
-orientation<-rep(c("left","right","left","right","left","right"),9)
+orientation<-rep(c("Left-facing","Right-facing","Left-facing","Right-facing","Left-facing","Right-facing"),9)
 bar.frame<-data.frame(pecentage=percentage,behavior=behavior,care=care,orientation=orientation)
 
-ggplot(data=bar.frame)+geom_bar(aes(y=percentage,x=interaction(care,orientation),fill=behavior),stat="identity")
+ggplot(data=bar.frame)+geom_bar(aes(y=percentage*100,x=care,fill=behavior),stat="identity")+facet_wrap(~orientation)+
+  theme_pubr()+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+                        legend.text=element_text(size=15),legend.title=element_text(size=15),
+                        legend.box="vertical",strip.text = element_text(size=15))+
+  scale_y_continuous(name="Percentage (%)")+
+  scale_x_discrete(name="")+
+  scale_fill_manual(name="Behaviour",values=c("#99CCFF","#00CC99","#006666",
+                                       "#FF99FF","#0099CC","#0033FF",
+                                       "#9966FF","#99FFCC","#CCFF66"))
+  
 
 ####################################################################################
 
@@ -476,7 +460,7 @@ View(total[total$proploss>.50,])
 
 ggplot(data=total[!is.na(total$loss),])+geom_point(aes(x=numcontact,y=behavior,colour=loss))+facet_wrap(orientation~care)
 
-# -------- NEED TO FIX THIS SECTION... ------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------------------------
 
 in.maxyes<-rep(NA,max(total$numcontact)-1)
 out.maxyes<-rep(NA,max(total$numcontact)-1)
@@ -487,6 +471,7 @@ alcohol.maxyes<-rep(NA,max(total$numcontact)-1)
 nearpatient.maxyes<-rep(NA,max(total$numcontact)-1)
 farpatient.maxyes<-rep(NA,max(total$numcontact)-1)
 gloveson.maxyes<-rep(NA,max(total$numcontact)-1)
+
 for(j in 1:6){
   for (i in 2:max(total$numcontact)){
     in.maxyes[i]<-length(total$loss[total$loss=="yes" & total$behavior=="In" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
@@ -497,7 +482,7 @@ for(j in 1:6){
     alcohol.maxyes[i]<-length(total$loss[total$loss=="yes" & total$behavior=="Alcohol" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
     nearpatient.maxyes[i]<-length(total$loss[total$loss=="yes" & total$behavior=="NearPatient" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
     farpatient.maxyes[i]<-length(total$loss[total$loss=="yes" & total$behavior=="FarPatient" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
-    gloveson.maxyes[i]<-length(total$loss[total$loss=="yes" & total$behavior=="GlovesOn" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
+    gloveson.maxyes[i]<-length(total$loss[total$loss=="yes" & total$behavior=="Gloves" & total$numcontact==i & total$orientation==combo[[j]][2] & total$care==combo[[j]][1]])
   }
   if(j==1){
     in.maxyes.total<-in.maxyes
@@ -538,18 +523,27 @@ totalyes<-c(in.maxyes.total,out.maxyes.total,patient.maxyes.total,hygieneinside.
 length.all<-length(in.maxyes.total)
 behavior<-c(rep("In",length.all),rep("Out",length.all),rep("Patient",length.all),rep("Hygiene Inside",length.all),
             rep("Equipment",length.all),rep("Alcohol",length.all),rep("Near Patient",length.all),rep("Far Patient",length.all),
-            rep("GlovesOn",length.all))
+            rep("Gloves",length.all))
 numcount<-rep(1:max(total$numcontact),54)
 care.total<-rep(care.total,9)
 orientation.total<-rep(orientation.total,9)
 
 frame.compare.yes.behavior<-data.frame(totalyes=totalyes,behavior=behavior,care.total=care.total,orientation.total=orientation.total,numcount=numcount)
+frame.compare.yes.behavior$orientation.total[frame.compare.yes.behavior$orientation.total=="left"]<-"Left-facing"
+frame.compare.yes.behavior$orientation.total[frame.compare.yes.behavior$orientation.total=="right"]<-"Right-facing"
 
 
 #frame.compare.yes.behavior<-frame.compare.yes.behavior[frame.compare.yes.behavior$care.total=="IV",]
-ggplot(data=frame.compare.yes.behavior[frame.compare.yes.behavior$numcount<=50,],aes(numcount,behavior))+geom_tile(aes(fill=totalyes),colour="white")+
-  scale_fill_gradient(low="white",high="blue",name="Number of Decreases")+scale_x_continuous(name="Contact Number")+
-  scale_y_discrete("Behavior")+facet_wrap(orientation.total~care.total)
+ggplot(data=frame.compare.yes.behavior[frame.compare.yes.behavior$numcount<=50 & frame.compare.yes.behavior$totalyes>0 & frame.compare.yes.behavior$numcount>1,],aes(numcount,behavior))+
+  geom_tile(aes(fill=totalyes),colour="black")+
+  scale_fill_gradient(low="light blue",high="black",name="Number of Decreases")+scale_x_continuous(name="Contact Number")+
+  scale_y_discrete("Behaviour")+facet_wrap(orientation.total~care.total)+theme_pubr()+
+  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
+        legend.text=element_text(size=20),legend.title=element_text(size=20),
+        legend.box="vertical",strip.text = element_text(size=20))+
+  guides(fill=guide_colorbar(barwidth=10,barheight=1))
+
+
 
 
 

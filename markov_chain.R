@@ -166,3 +166,4 @@ f<-plot_ly(matrixtoplot, y = ~Var1, x = ~Var2, z = ~value, colors= "Blues", show
   layout(xaxis = list(title="Right-Facing"), yaxis = list(title="From"))
 
 p<-subplot(a,b,c,d,e,f,shareX = TRUE,shareY=TRUE,titleY=TRUE,nrows=3)
+p

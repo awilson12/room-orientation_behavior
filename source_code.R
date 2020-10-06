@@ -31,13 +31,13 @@ data.all.combined<-rbind(data.all.airsurf,data.all)
 
 windows()
 ggplot(data=data.all.combined)+
-  geom_ribbon(aes(x=numcount,ymin=means-sd*1.96/sqrt(1000),ymax=means+sd*1.96/sqrt(1000),group=interaction(care,model),fill=care),alpha=0.5)+
-  geom_line(aes(x=numcount,y=means,group=care,linetype=care,colour=care),size=1.5)+
+  geom_ribbon(aes(x=numcount,ymin=means-sd*1.96/sqrt(5000),ymax=means+sd*1.96/sqrt(5000),group=interaction(care,model),fill=care),alpha=0.5)+
+  geom_line(aes(x=numcount,y=means,group=care,colour=care),linetype="twodashed",size=1.5)+
   scale_y_continuous(name="Mean Concentration on Right Hand")+
   scale_x_continuous(name="Contact Number")+
-  scale_color_discrete(name="Care Type")+
+  scale_color_manual(name="Care Type",values=c("#00333","#00CC99","#0099CC"))+
   scale_linetype_discrete(name="Care Type")+
-  scale_fill_discrete(name="Care Type")+
+  scale_fill_manual(name="Care Type",values=c("#00333","#00CC99","#0099CC"))+
   facet_wrap(model~facing,ncol=2)+theme_pubr()+
   theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
         legend.text=element_text(size=15),legend.title=element_text(size=15),
