@@ -140,6 +140,7 @@ for (i in 1:6000){
       total$numcontact<-c(1:length(total$handR))
       total$run<-rep(i,length(total$handR))
       total$loss[1]<-NA
+      total$lossamount<-NA
       if(length(total$behavior[total$behavior=="Alcohol" | total$behavior=="Gloves"])>0){
         total$alcohol<-rep("yes",length(total$behavior))
       }else{
@@ -148,8 +149,10 @@ for (i in 1:6000){
       for (j in 2:length(total$behavior)){
         if(total$handR[j-1] > total$handR[j]){
           total$loss[j]<-"yes"
+          total$lossamount<-total$handR[j]-total$handR[j-1]
         }else{
           total$loss[j]<-"no"
+          
         }
       }
       total$proploss<-rep(length(total$loss[total$loss=="yes"])/length(total$behavior),length(total$behavior))
@@ -160,6 +163,7 @@ for (i in 1:6000){
       frame$numcontact<-c(1:length(frame$handR))
       frame$run<-rep(i,length(frame$handR))
       frame$loss[1]<-NA
+      frame$lossamount<-NA
       if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
         frame$alcohol<-rep("yes",length(frame$behavior))
       }else{
@@ -168,6 +172,7 @@ for (i in 1:6000){
       for (j in 2:length(frame$behavior)){
         if(frame$handR[j-1] > frame$handR[j]){
           frame$loss[j]<-"yes"
+          frame$lossamount<-total$handR[j]-total$handR[j-1]
         }else{
           frame$loss[j]<-"no"
         }
@@ -181,6 +186,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
+    frame$lossamount<-NA
     if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
@@ -189,6 +195,7 @@ for (i in 1:6000){
     for (j in 2:length(frame$behavior)){
       if(frame$handR[j-1] > frame$handR[j]){
         frame$loss[j]<-"yes"
+        frame$lossamount<-total$handR[j]-total$handR[j-1]
       }else{
         frame$loss[j]<-"no"
       }
@@ -202,6 +209,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
+    frame$lossamount<-NA
     if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
@@ -210,6 +218,7 @@ for (i in 1:6000){
     for (j in 2:length(frame$behavior)){
       if(frame$handR[j-1] > frame$handR[j]){
         frame$loss[j]<-"yes"
+        frame$lossamount<-total$handR[j]-total$handR[j-1]
       }else{
         frame$loss[j]<-"no"
       }
@@ -223,6 +232,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
+    frame$lossamount<-NA
     if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
@@ -231,6 +241,7 @@ for (i in 1:6000){
     for (j in 2:length(frame$behavior)){
       if(frame$handR[j-1] > frame$handR[j]){
         frame$loss[j]<-"yes"
+        frame$lossamount<-total$handR[j]-total$handR[j-1]
       }else{
         frame$loss[j]<-"no"
       }
@@ -244,6 +255,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
+    frame$lossamount<-NA
     if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
@@ -252,6 +264,7 @@ for (i in 1:6000){
     for (j in 2:length(frame$behavior)){
       if(frame$handR[j-1] > frame$handR[j]){
         frame$loss[j]<-"yes"
+        frame$lossamount<-total$handR[j]-total$handR[j-1]
       }else{
         frame$loss[j]<-"no"
       }
@@ -265,6 +278,7 @@ for (i in 1:6000){
     frame$numcontact<-c(1:length(frame$handR))
     frame$run<-rep(i,length(frame$handR))
     frame$loss[1]<-NA
+    frame$lossamount<-NA
     if(length(frame$behavior[frame$behavior=="Alcohol" | frame$behavior=="Gloves"])>0){
       frame$alcohol<-rep("yes",length(frame$behavior))
     }else{
@@ -273,6 +287,7 @@ for (i in 1:6000){
     for (j in 2:length(frame$behavior)){
       if(frame$handR[j-1] > frame$handR[j]){
         frame$loss[j]<-"yes"
+        frame$lossamount<-total$handR[j]-total$handR[j-1]
       }else{
         frame$loss[j]<-"no"
       }
