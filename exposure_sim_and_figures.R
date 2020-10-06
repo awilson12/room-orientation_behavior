@@ -462,26 +462,6 @@ ggplot(data=bar.frame)+geom_bar(aes(y=percentage*100,x=care,fill=behavior),stat=
 
 # ANALYSIS OF MOMENTS WHEN CONC DECREASED
 
-#
-library(ggplot2)
-ggplot(total[total$numcontact==2,])+geom_violin(aes(x=care,y=proploss,fill=orientation))+
-  scale_y_continuous(name="Proportion of Contacts per Run that Resulted in Loss")+
-  scale_fill_discrete(name="Orientation",labels=c("Left-facing","Right-facing"))+
-  scale_x_discrete(name="Care Type",labels=c("IV","Observation","Doctors' Rounds"))+facet_wrap(~alcohol)
-
-hist(total$numcontact[total$loss=="yes"])
-
-hist(total$numcontact[total$loss=="no"])
-
-ggplot(data=total[!is.na(total$loss),])+geom_density(aes(x=numcontact,fill=interaction(care,orientation)),alpha=0.5)+
-  scale_x_continuous(trans="log10")+
-  facet_wrap(~loss)
-
-View(total[total$proploss>.50,])
-
-ggplot(data=total[!is.na(total$loss),])+geom_point(aes(x=numcontact,y=behavior,colour=loss))+facet_wrap(orientation~care)
-
-#--------------------------------------------------------------------------------------------------------------------------
 
 in.maxyes<-rep(NA,max(total$numcontact)-1)
 out.maxyes<-rep(NA,max(total$numcontact)-1)
@@ -626,89 +606,50 @@ ggplot(data=frame.compare.temp[frame.compare.temp$numcount<=50 & frame.compare.t
         legend.box="vertical",strip.text = element_text(size=20),title=element_text(size=20))+
   guides(fill=guide_colorbar(barwidth=20,barheight=1))+ggtitle("B")
 
-
-
-
-
-
-
-
-
-#histogram of lambda and lambda prior
-
-prior<-runif(100000,0.0001,0.406)
-
-transf<-c(lambda)
-type<-c(rep("posterior",length(lambda)))
-
-frame.te<-data.frame(trasnf=transf,type=type)
-
 windows()
-ggplot(frame.te)+geom_density(aes(x=transf),fill="light blue",alpha=0.3)+
-  geom_histogram(aes(x=transf,y=..density..),fill="light blue",color="black",alpha=0.3)+
-  scale_x_continuous(name="Posterior Transfer Efficiency")+
-  scale_y_continuous(name="Density")+
+frame.compare.temp<-frame.compare.yes.behavior[!is.na(frame.compare.yes.behavior$totalchange),]
+ggplot(data=frame.compare.temp[frame.compare.temp$numcount<=50 & frame.compare.temp$totalyes>0 & frame.compare.temp$numcount>1,],aes(numcount,behavior))+
+  geom_tile(aes(fill=totalchange),colour="black")+
+  scale_fill_gradient2(low="white",mid="light blue",high="black",name="Mean Change in Concentration")+scale_x_continuous(name="Contact Number")+
+  scale_y_discrete("Behaviour")+facet_wrap(orientation.total~care.total)+theme_pubr()+
+  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
+        legend.text=element_text(size=20),legend.title=element_text(size=20),
+        legend.box="vertical",strip.text = element_text(size=20),title=element_text(size=20))+
+  guides(fill=guide_colorbar(barwidth=20,barheight=1))+ggtitle("B")
+
+#exploring simulations with greatest loss moments
+frame.sorted<-total[order(-total$lossamount),]
+frame.greatest.loss<-frame.sorted[1:10,]
+run.label<-c("Sim 1", "Sim 2", "Sim 3","Sim 4","Sim 5",
+             "Sim 6", "Sim 7","Sim 8", "Sim 9", "Sim 10")
+
+for (i in 1:10){
+  if (i==1){
+    frame.store<-total[total$run==frame.greatest.loss$run[i],]
+    frame.store$run<-run.label[i]
+  }else{
+    frame.temp<-total[total$run==frame.greatest.loss$run[i],]
+    frame.temp$run<-run.label[i]
+    frame.store<-rbind(frame.store,frame.temp)
+  }
+}
+
+frame.store$run<-factor(frame.store$run,labels=run.label)
+
+#View(frame.store)
+windows()
+ggplot(frame.store)+geom_point(aes(x=numcontact,y=handR,color=behavior,group=run),size=4)+
+  geom_line(aes(x=numcontact,y=handR,group=run))+facet_wrap(~run,scales="free")+
+  scale_color_discrete(name="Behaviour")+
+  scale_x_continuous((name="Contact Number"))+
+  scale_y_continuous(name=expression("Viral particles/cm"^2*"on hands"))+
   theme_pubr()+
-  theme(axis.text=element_text(size=15),axis.title=element_text(size=15))
-
-#------------- other plots-------------------------
-
-#ggplot(data=data,aes(x=numcontacts,y=hand.R.max,group=care))+geom_point(aes(x=numcontacts,y=hand.R.max,colour=care))+
-#  geom_smooth(method='lm',aes(colour=care))+facet_wrap(~room.face)
-
-A<-ggplot(data=data,aes(x=numcontacts,y=hand.R.max,group=interaction(gloves,care)))+geom_point(aes(x=numcontacts,y=hand.R.max,colour=interaction(gloves,care)))+
-  geom_smooth(method='lm',aes(colour=interaction(gloves,care)))+facet_wrap(~room.face)+
-  scale_y_continuous(name="Max Conc. on Right Hand")+
-  scale_x_continuous(name="Number of Contacts")+
-  scale_color_discrete(name="Care Type")
-
-B<-ggplot(data=data,aes(x=numcontacts,y=hand.R.mean,group=interaction(gloves,care)))+geom_point(aes(x=numcontacts,y=hand.R.mean,colour=interaction(gloves,care)))+
-  geom_smooth(method='lm',aes(colour=interaction(gloves,care)))+facet_wrap(~room.face)+
-  scale_y_continuous(name="Mean Conc. on Right Hand")+
-  scale_x_continuous(name="Number of Contacts")+
-  scale_color_discrete(name="Care Type")
-
-C<-ggplot(data=data,aes(x=numcontacts,y=hand.L.max,group=interaction(gloves,care)))+geom_point(aes(x=numcontacts,y=hand.L.max,colour=interaction(gloves,care)))+
-  geom_smooth(method='lm',aes(colour=interaction(gloves,care)))+facet_wrap(~room.face)+
-  scale_y_continuous(name="Max Conc. on Left Hand")+
-  scale_x_continuous(name="Number of Contacts")+
-  scale_color_discrete(name="Care Type")
-
-D<-ggplot(data=data,aes(x=numcontacts,y=hand.L.mean,group=interaction(gloves,care)))+geom_point(aes(x=numcontacts,y=hand.L.mean,colour=interaction(gloves,care)))+
-  geom_smooth(method='lm',aes(colour=interaction(gloves,care)))+facet_wrap(~room.face)+
-  scale_y_continuous(name="Mean Conc. on Left Hand")+
-  scale_x_continuous(name="Number of Contacts")+
-  scale_color_discrete(name="Care Type")
-
-library(ggpubr)
-windows()
-ggarrange(A,B,C,D,common.legend=TRUE)
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=20),
+        legend.text=element_text(size=20),legend.title=element_text(size=20),
+        legend.box="vertical",strip.text = element_text(size=20))
 
 
-E<-ggplot(data=data,aes(x=numcontacts,y=hand.both.max,group=interaction(gloves,care)))+geom_point(aes(x=numcontacts,y=hand.R.max,colour=interaction(gloves,care)))+
-  # geom_smooth(method='lm',aes(colour=interaction(gloves,care)))+
-  facet_wrap(~room.face)+
-  scale_y_continuous(name="Max Conc. on Hands",trans="log10")+
-  scale_x_continuous(name="Number of Contacts",trans="log10")+
-  scale_color_discrete(name="Care Type")
+                                      
 
-G<-ggplot(data=data,aes(x=numcontacts,y=hand.both.mean,group=interaction(gloves,care)))+geom_point(aes(x=numcontacts,y=hand.R.mean,colour=interaction(gloves,care)))+
-  #geom_smooth(method='lm',aes(colour=interaction(gloves,care)))+
-  facet_wrap(~room.face)+
-  scale_y_continuous(name="Mean Conc. on a Single Hand",trans="log10")+
-  scale_x_continuous(name="Number of Contacts",trans="log10")+
-  scale_color_discrete(name="Care Type",labels=c("IV, No Gloves","IV, Gloves","Observation, No Gloves",
-                                                 "Observation, Gloves","Rounds, No Gloves"))
-
-windows()
-ggarrange(E,G,common.legend = TRUE,ncol=1)
-
-windows()
-
-ggplot(data=data)+geom_density(aes(x=hand.both.mean,fill=interaction(gloves,room.face)),alpha=.5)+facet_wrap(~care)+scale_x_continuous(trans="log10")
-ggplot(data=data)+geom_density(aes(x=numcontacts,fill=interaction(gloves,room.face)),alpha=.5)+facet_wrap(~care)+scale_x_continuous(trans="log10")
-ggplot(data=data[data$numcontacts==20,])+geom_density(aes(x=hand.both.mean,fill=interaction(gloves,room.face)),alpha=.5)+facet_wrap(~care)+scale_x_continuous(trans="log10")
-
-G
 
 
