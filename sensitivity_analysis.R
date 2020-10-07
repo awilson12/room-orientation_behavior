@@ -66,9 +66,9 @@ plot.frame<-data.frame(TE=mean.TE,SH=mean.SH,surf=mean.surf,eff=mean.efficacy,
                        model=model,meanhands=mean.hands,maxhands=max.hands)
 
 #------- scatter plots ------------------------------------------------------
-
+windows()
 ggplot(plot.frame,aes(x=TE,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name="Transfer Efficiency")+
   scale_linetype_discrete(name="Care Type")+
@@ -79,7 +79,7 @@ ggplot(plot.frame,aes(x=TE,y=mean.hands,group=care,color=care))+geom_point(size=
         legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
 ggplot(plot.frame,aes(x=SH,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name="FSA")+
   scale_linetype_discrete(name="Care Type")+
@@ -90,7 +90,7 @@ ggplot(plot.frame,aes(x=SH,y=mean.hands,group=care,color=care))+geom_point(size=
         legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
 ggplot(plot.frame,aes(x=log10(surf),y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name=expression("Log"[10]*phantom(x)*"Concentration on Surfaces"))+
   scale_linetype_discrete(name="Care Type")+
@@ -101,7 +101,7 @@ ggplot(plot.frame,aes(x=log10(surf),y=mean.hands,group=care,color=care))+geom_po
         legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
 ggplot(plot.frame,aes(x=eff,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name="Hand Sanitiser Efficacy")+
   scale_linetype_discrete(name="Care Type")+
@@ -112,7 +112,7 @@ ggplot(plot.frame,aes(x=eff,y=mean.hands,group=care,color=care))+geom_point(size
         legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
 ggplot(plot.frame,aes(x=count.farpatient,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name="Number of Far Patient Contacts")+
   scale_linetype_discrete(name="Care Type")+
@@ -123,7 +123,7 @@ ggplot(plot.frame,aes(x=count.farpatient,y=mean.hands,group=care,color=care))+ge
         legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
 ggplot(plot.frame,aes(x=count.nearpatient,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name="Number of Near Patient Contacts")+
   scale_linetype_discrete(name="Care Type")+
@@ -134,7 +134,7 @@ ggplot(plot.frame,aes(x=count.nearpatient,y=mean.hands,group=care,color=care))+g
         legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
 ggplot(plot.frame,aes(x=count.equipment,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name="Number of Equipment Contacts")+
   scale_linetype_discrete(name="Care Type")+
@@ -145,7 +145,7 @@ ggplot(plot.frame,aes(x=count.equipment,y=mean.hands,group=care,color=care))+geo
         legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
 ggplot(plot.frame,aes(x=count.patient,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name="Number of Patient Contacts")+
   scale_linetype_discrete(name="Care Type")+
@@ -157,7 +157,7 @@ ggplot(plot.frame,aes(x=count.patient,y=mean.hands,group=care,color=care))+geom_
 
 
 ggplot(plot.frame,aes(x=count.hygieneinside,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name="Number of Hygiene Surface Contacts")+
   scale_linetype_discrete(name="Care Type")+
@@ -168,7 +168,7 @@ ggplot(plot.frame,aes(x=count.hygieneinside,y=mean.hands,group=care,color=care))
         legend.box="vertical",strip.text = element_text(size=15))+facet_wrap(~care,scales="free")
 
 ggplot(plot.frame,aes(x=count.gloves,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name="Number of Glove Donning/Doffing Events")+
   scale_linetype_discrete(name="Care Type")+
@@ -180,7 +180,7 @@ ggplot(plot.frame,aes(x=count.gloves,y=mean.hands,group=care,color=care))+geom_p
 
 
 ggplot(plot.frame,aes(x=count.alcohol,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
-  geom_smooth(method="loess",size=2,color="black")+
+  #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
   scale_x_continuous(name="Number of Hand Sanitiser Events")+
   scale_linetype_discrete(name="Care Type")+
