@@ -46,10 +46,10 @@ ggplot(data=frame.1,aes(x=time,y=handconc,group=hand))+
                         "#FF99FF","#0099CC","#0033FF",
                         "#9966FF","#99FFCC","#CCFF66"))+
   theme_pubr()+
-  annotate("text",x=68,y=4e-5,label="Glove doffing",size=6)+
-  annotate("text",x=30,y=1e-5,label="Glove donning",size=6)+
-  annotate("segment", x = 70, xend = 65, y = 3.6e-5, yend = 3.6e-5, colour = "black", size=1, arrow=arrow())+
-  annotate("segment", x = 31, xend = 28.5, y = 0.6e-5, yend = 0.1e-5, colour = "black", size=1, arrow=arrow())+
+  annotate("text",x=68,y=1.1e-5,label="Glove doffing",size=6)+
+  annotate("text",x=30,y=0.5e-5,label="Glove donning",size=6)+
+  annotate("segment", x = 70, xend = 65, y = 0.9e-5, yend = 0.9e-5, colour = "black", size=1, arrow=arrow())+
+  annotate("segment", x = 31, xend = 28.5, y = 0.4e-5, yend = 0.1e-5, colour = "black", size=1, arrow=arrow())+
    theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
         legend.text=element_text(size=20),legend.title=element_text(size=20),
         legend.box="vertical")
