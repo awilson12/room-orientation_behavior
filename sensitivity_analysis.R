@@ -195,6 +195,7 @@ plot.frame$patient<-NA
 plot.frame$patient[plot.frame$count.patient<1]<-"No patient contacts"
 plot.frame$patient[plot.frame$count.patient>=1]<-"At least 1 patient contact"
 
+windows()
 ggplot(plot.frame,aes(x=orientation,y=log10(mean.hands),group=interaction(care,orientation,model,patient),fill=patient))+
   geom_violin(alpha=0.5,draw_quantiles = c(0.25,0.5,0.75))+
   theme_pubr()+
@@ -229,12 +230,13 @@ ggplot(data=melted_cormat,aes(x=Var1,y=Var2,fill=value))+
   scale_x_discrete(name="",labels=heatmaplabel)+
   scale_y_discrete(name="",labels=heatmaplabel)
 
-#-------bioaerosol + behaviour
+#-------left-facing----------------------------------------------------------
+
 plot.frame.temp<-plot.frame[plot.frame$orientation=="left",]
 
 plot.frame.temp.1<-plot.frame.temp[plot.frame.temp$care=="IV",]
 
-plot.frame.cor<-subset(plot.frame.temp.1,select=c(-model,-orientation,-care,-eff))
+plot.frame.cor<-subset(plot.frame.temp.1,select=c(-model,-orientation,-care,-eff,-patient))
 cormat<-round(cor(plot.frame.cor,method="spearman"),2)
 melted_cormat<-melt(cormat)
 
@@ -250,7 +252,7 @@ A<-ggplot(data=melted_cormat,aes(x=Var1,y=Var2,fill=value))+
 
 plot.frame.temp.2<-plot.frame.temp[plot.frame.temp$care=="Obs",]
 
-plot.frame.cor<-subset(plot.frame.temp.2,select=c(-model,-orientation,-care,-eff))
+plot.frame.cor<-subset(plot.frame.temp.2,select=c(-model,-orientation,-care,-eff,-patient))
 cormat<-round(cor(plot.frame.cor,method="spearman"),2)
 melted_cormat<-melt(cormat)
 
@@ -266,7 +268,7 @@ B<-ggplot(data=melted_cormat,aes(x=Var1,y=Var2,fill=value))+
 
 plot.frame.temp.3<-plot.frame.temp[plot.frame.temp$care=="Rounds",]
 
-plot.frame.cor<-subset(plot.frame.temp.3,select=c(-model,-orientation,-care,-eff))
+plot.frame.cor<-subset(plot.frame.temp.3,select=c(-model,-orientation,-care,-eff,-patient))
 cormat<-round(cor(plot.frame.cor,method="spearman"),2)
 melted_cormat<-melt(cormat)
 
@@ -288,11 +290,13 @@ B
 windows()
 C
 
+#---------right-facing-----------------------------------------------
+
 plot.frame.temp<-plot.frame[plot.frame$orientation=="right",]
 
 plot.frame.temp.1<-plot.frame.temp[plot.frame.temp$care=="IV",]
 
-plot.frame.cor<-subset(plot.frame.temp.1,select=c(-model,-orientation,-care,-eff))
+plot.frame.cor<-subset(plot.frame.temp.1,select=c(-model,-orientation,-care,-eff,-patient))
 cormat<-round(cor(plot.frame.cor,method="spearman"),2)
 melted_cormat<-melt(cormat)
 
@@ -308,7 +312,7 @@ A<-ggplot(data=melted_cormat,aes(x=Var1,y=Var2,fill=value))+
 
 plot.frame.temp.2<-plot.frame.temp[plot.frame.temp$care=="Obs",]
 
-plot.frame.cor<-subset(plot.frame.temp.2,select=c(-model,-orientation,-care,-eff))
+plot.frame.cor<-subset(plot.frame.temp.2,select=c(-model,-orientation,-care,-eff,-patient))
 cormat<-round(cor(plot.frame.cor,method="spearman"),2)
 melted_cormat<-melt(cormat)
 
@@ -324,7 +328,7 @@ B<-ggplot(data=melted_cormat,aes(x=Var1,y=Var2,fill=value))+
 
 plot.frame.temp.3<-plot.frame.temp[plot.frame.temp$care=="Rounds",]
 
-plot.frame.cor<-subset(plot.frame.temp.3,select=c(-model,-orientation,-care,-eff))
+plot.frame.cor<-subset(plot.frame.temp.3,select=c(-model,-orientation,-care,-eff,-patient))
 cormat<-round(cor(plot.frame.cor,method="spearman"),2)
 melted_cormat<-melt(cormat)
 
