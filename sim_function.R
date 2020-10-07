@@ -274,10 +274,10 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     SH[behavior=="In" | behavior=="Out"]<-runif(length(SH[behavior=="In" | behavior=="Out"]),0.10,0.21) #min and max of left and right hands in AuYeung et al. (2008)
     
     #fractional surface area for patient contact (front partial fingers)
-    SH[behavior=="Patient"]<-runif(length(SH[behavior=="Patient"]),0.4,0.6)
+    SH[behavior=="Patient"]<-runif(length(SH[behavior=="Patient"]),0.03,0.25)
     
     #fractional surface area for variety of grip types (non "in"/"out" contacts)
-    SH[behavior=="Equipment"|behavior=="FarPatient"|behavior=="NearPatient"|behavior=="HygieneInside"]<-runif(length(SH[behavior=="Equipment"|behavior=="FarPatient"|behavior=="NearPatient"|behavior=="HygieneInside"]),0.01,0.25)
+    SH[behavior=="Equipment"|behavior=="FarPatient"|behavior=="NearPatient"|behavior=="HygieneInside"]<-runif(length(SH[behavior=="Equipment"|behavior=="FarPatient"|behavior=="NearPatient"|behavior=="HygieneInside"]),0.006,0.25)
     #min and max of left and right hands in AuYeung et al. (2008) for various hand grip and hand press contacts (hand immersion contacts not included)
     
     #------------- RIGHT HAND VS. LEFT HAND ---------------------------------------------------------------------------
