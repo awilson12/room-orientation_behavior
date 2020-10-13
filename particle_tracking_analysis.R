@@ -2,6 +2,9 @@
 #------------------------- #3 Reading in ANSYS results to make variable surface concentrations ---------------------------------------------------------------------------
 
 ANSYS<-read.csv('C:/Users/wilso/Documents/Research/dissertation/preparation of chapters/Other materials/ANSYS St. James files/particle_comparison.csv')
+
+View(ANSYS)
+
 ANSYS$SURFACEAREAm2<-ANSYS$SURFACEAREAm2*10000 #convert m2 to cm2
 View(ANSYS)
 
@@ -23,20 +26,9 @@ A<-ggplot(data=ANSYS,aes(x=SURFACE,y=FRACTION,fill=SURFACE))+
   facet_wrap(~ORIENTATION)+
   theme_pubr()+
   theme(strip.text = element_text(size=15),axis.title = element_text(size=15),
-        axis.text = element_text(size=15),legend.position="none")+ggtitle("A")
-
-B<-ggplot(data=ANSYS,aes(x=SURFACE,y=SURFACEAREAm2/10000,fill=SURFACE))+
-  scale_y_continuous(name=expression("Surface Area (m"^2*")"),limits=c(0,11))+
-  scale_x_discrete(name="Surface")+
-  geom_bar(stat="identity",color="black")+
-  scale_fill_manual(values=c("#0099CC","#006666","#99FFCC","#00CC99","#9966FF","#99CCFF",
-                             "#FF99FF"))+
-  geom_text(aes(label=round(SURFACEAREAm2/10000,2)), position=position_dodge(width=0.5), hjust=-0.1, vjust=0.5,size=6)+
-  coord_flip()+
-  theme_pubr()+
-  theme(strip.text = element_text(size=15),axis.title = element_text(size=15),
-        axis.text = element_text(size=15),legend.position="none")+facet_wrap(~ORIENTATION)+ggtitle("B")
+        axis.text = element_text(size=15),legend.position="none")
+  #+ggtitle("A")
 
 windows()
-ggarrange(A,B,ncol=1)
+A
 
