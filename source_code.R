@@ -36,7 +36,7 @@ total.all<-rbind(total.airsurf,total)
 
 windows()
 ggplot(data=data.all.combined)+
-  geom_ribbon(aes(x=numcount,ymin=means-sd*1.96/sqrt(1000),ymax=means+sd*1.96/sqrt(1000),group=interaction(care,model),fill=care),alpha=0.5)+
+  geom_ribbon(aes(x=numcount,ymin=means-sd*1.96/sqrt(numcount),ymax=means+sd*1.96/sqrt(numcount),group=interaction(care,model),fill=care),alpha=0.5)+
   geom_line(aes(x=numcount,y=means,group=care,colour=care),linetype="twodash",size=1.5)+
   scale_y_continuous(name="Mean Concentration on Right Hand")+
   scale_x_continuous(name="Contact Number")+
