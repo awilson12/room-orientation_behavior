@@ -336,20 +336,32 @@ number.of.contacts<-100
 mean.IV.left<-rep(NA,number.of.contacts)
 sd.IV.left<-rep(NA,number.of.contacts)
 
+num.sim.IV.left<-rep(NA,number.of.contacts)
+
 mean.IV.right<-rep(NA,number.of.contacts)
 sd.IV.right<-rep(NA,number.of.contacts)
+
+num.sim.IV.right<-rep(NA,number.of.contacts)
 
 mean.Obs.left<-rep(NA,number.of.contacts)
 sd.Obs.left<-rep(NA,number.of.contacts)
 
+num.sim.Obs.left<-rep(NA,number.of.contacts)
+
 mean.Obs.right<-rep(NA,number.of.contacts)
 sd.Obs.right<-rep(NA,number.of.contacts)
+
+num.sim.Obs.right<-rep(NA,number.of.contacts)
 
 mean.Rounds.left<-rep(NA,number.of.contacts)
 sd.Rounds.left<-rep(NA,number.of.contacts)
 
+num.sim.Rounds.left<-rep(NA,number.of.contacts)
+
 mean.Rounds.right<-rep(NA,number.of.contacts)
 sd.Rounds.right<-rep(NA,number.of.contacts)
+
+num.sim.Rounds.right<-rep(NA,number.of.contacts)
 
 for (i in 1:100){
   #------------ IV --------------------------------
@@ -357,27 +369,39 @@ for (i in 1:100){
   mean.IV.left[i]<-mean(total$handR[total$care=="IV" & total$orientation=="left" & total$numcontact==i])
   sd.IV.left[i]<-sd(total$handR[total$care=="IV" & total$orientation=="left" & total$numcontact==i])
   
+  num.sim.IV.left[i]<-length(total$handR[total$care=="IV" & total$orientation=="left" & total$numcontact==i])
+  
   #IV - right facing
   mean.IV.right[i]<-mean(total$handR[total$care=="IV" & total$orientation=="right" & total$numcontact==i])
   sd.IV.right[i]<-sd(total$handR[total$care=="IV" & total$orientation=="right" & total$numcontact==i])
+  
+  num.sim.IV.right[i]<-length(total$handR[total$care=="IV" & total$orientation=="right" & total$numcontact==i])
   
   #------------ Obs --------------------------------
   #Obs - left facing
   mean.Obs.left[i]<-mean(total$handR[total$care=="Obs" & total$orientation=="left" & total$numcontact==i])
   sd.Obs.left[i]<-sd(total$handR[total$care=="Obs" & total$orientation=="left" & total$numcontact==i])
   
+  num.sim.Obs.left[i]<-length(total$handR[total$care=="Obs" & total$orientation=="left" & total$numcontact==i])
+  
   #Obs - right facing
   mean.Obs.right[i]<-mean(total$handR[total$care=="Obs" & total$orientation=="right" & total$numcontact==i])
   sd.Obs.right[i]<-sd(total$handR[total$care=="Obs" & total$orientation=="right" & total$numcontact==i])
+  
+  num.sim.Obs.right[i]<-length(total$handR[total$care=="Obs" & total$orientation=="right" & total$numcontact==i])
   
   #------------ Rounds --------------------------------
   #Rounds - left facing
   mean.Rounds.left[i]<-mean(total$handR[total$care=="Rounds" & total$orientation=="left" & total$numcontact==i])
   sd.Rounds.left[i]<-sd(total$handR[total$care=="Rounds" & total$orientation=="left" & total$numcontact==i])
   
+  num.sim.Rounds.left[i]<-length(total$handR[total$care=="Rounds" & total$orientation=="left" & total$numcontact==i])
+  
   #Rounds - right facing
   mean.Rounds.right[i]<-mean(total$handR[total$care=="Rounds" & total$orientation=="right" & total$numcontact==i])
   sd.Rounds.right[i]<-sd(total$handR[total$care=="Rounds" & total$orientation=="right" & total$numcontact==i])
+  
+  num.sim.Rounds.right[i]<-length(total$handR[total$care=="Rounds" & total$orientation=="right" & total$numcontact==i])
   
 }
 
@@ -389,10 +413,11 @@ care<-c(rep("IV",length(c(mean.IV.left,mean.IV.right))),
         rep("Obs",length(c(mean.Obs.left,mean.Obs.right))),
         rep("Rounds",length(c(mean.Rounds.left,mean.Rounds.right)))
 )
+numsims<-c(num.sim.IV.left,num.sim.IV.right,num.sim.Obs.left,num.sim.Obs.right,num.sim.Rounds.left,num.sim.Rounds.right)
 numcount<-rep(c(1:length(mean.IV.left)),6)
 facing<-rep(c(rep("Left-facing",length(mean.IV.left)),rep("Right-facing",length(mean.IV.right))),3)
 
-data.all<-data.frame(means=means,sd=sd,care=care,facing=facing,numcount=numcount)
+data.all<-data.frame(means=means,sd=sd,care=care,facing=facing,numcount=numcount,numsims)
 
 windows()
 ggplot(data=data.all)+
