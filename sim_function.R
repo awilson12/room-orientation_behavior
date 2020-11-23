@@ -193,7 +193,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
         
         #While the currently selected behavior is alcohol, keep resampling
         #until we find something different.
-        
+        print("yes")
         while (behavior[k]=="Alcohol"){
           behavior[k]<-sample(sample.space,1,replace=TRUE,prob=prob.mat[behavior[k-1],])
         }
@@ -219,7 +219,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     transfer<-rep(NA,length(behavior))
     
     #transfer efficiencies for equipment, far patient, near patient contacts, and door handle contacts (in/out)
-    transfer[behavior=="Equipment" | behavior=="FarPatient" | behavior=="In" | behavior=="Out" | behavior=="NearPatient"|behavior=="HygieneInside"]<-sample(lambda,length(    transfer[behavior=="Equipment" | behavior=="FarPatient" | behavior=="In" | behavior=="Out" | behavior=="NearPatient"|behavior=="HygieneInside"]))
+    transfer[behavior=="Equipment" | behavior=="FarPatient" | behavior=="In" | behavior=="Out" | behavior=="NearPatient"|behavior=="HygieneInside"]<-sample(lambda,length(transfer[behavior=="Equipment" | behavior=="FarPatient" | behavior=="In" | behavior=="Out" | behavior=="NearPatient"|behavior=="HygieneInside"]))
     
     #transfer efficiency patient
     transfer[behavior=="Patient"]<-runif(length(transfer[behavior=="Patient"]),0.0001,0.406)
@@ -277,7 +277,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     SH[behavior=="Patient"]<-runif(length(SH[behavior=="Patient"]),0.03,0.25)
     
     #fractional surface area for variety of grip types (non "in"/"out" contacts)
-    SH[behavior=="Equipment"|behavior=="FarPatient"|behavior=="NearPatient"|behavior=="HygieneInside"]<-runif(length(SH[behavior=="Equipment"|behavior=="FarPatient"|behavior=="NearPatient"|behavior=="HygieneInside"]),0.006,0.25)
+    SH[behavior=="Equipment"|behavior=="FarPatient"|behavior=="NearPatient"|behavior=="HygieneInside"]<-runif(length(SH[behavior=="Equipment"|behavior=="FarPatient"|behavior=="NearPatient"|behavior=="HygieneInside"]),0.008,0.25)
     #min and max of left and right hands in AuYeung et al. (2008) for various hand grip and hand press contacts (hand immersion contacts not included)
     
     #------------- RIGHT HAND VS. LEFT HAND ---------------------------------------------------------------------------
