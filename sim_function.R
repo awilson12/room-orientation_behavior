@@ -193,7 +193,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
         
         #While the currently selected behavior is alcohol, keep resampling
         #until we find something different.
-        print("yes")
+        #print("yes")
         while (behavior[k]=="Alcohol"){
           behavior[k]<-sample(sample.space,1,replace=TRUE,prob=prob.mat[behavior[k-1],])
         }
