@@ -21,9 +21,8 @@ A<-ggplot(data=ANSYS,aes(x=SURFACE,y=FRACTION,fill=SURFACE))+
   geom_bar(stat="identity",color="black")+
   geom_text(aes(label=round(FRACTION,2)), position=position_dodge(width=0.5), hjust=-0.1, vjust=0.5,size=6)+
   coord_flip()+
-  scale_fill_manual(values=c("#0099CC","#006666","#99FFCC","#00CC99","#9966FF","#99CCFF",
-                               "#FF99FF"))+
-  facet_wrap(~ORIENTATION)+
+  scale_fill_manual(values=c("#0099CC","#006666","#99FFCC","#00CC99","#9966FF","#FF99FF","#99CCFF"))+
+  facet_wrap(~ORIENTATION,ncol=1)+
   theme_pubr()+
   theme(strip.text = element_text(size=15),axis.title = element_text(size=15),
         axis.text = element_text(size=15),legend.position="none")
