@@ -1,10 +1,5 @@
 # room-orientation_behaviour
 
-
-markov_chain_stjames_20200901.R
--------------------------------
-This is the code for estimating exposures and infection risks and uses inputted data from files "lambda.csv", "movsdf.rbind_orientationcorrected.csv", and "particle_comparison.csv"
-
 lambda.csv
 ----------
 This contains the posterior transfer efficiencies from DOI: 10.1098/rsif.2020.0121
@@ -21,3 +16,26 @@ meshing_sensitivity analysis_v2.R
 ---------------------------------
 This is the code used for the element size sensitivity analysis and utilizes files "orientation2_rake2_0.027.csv", "orientation2_rake2_0.03_2.csv", and "orientation2_rake2_0.04.csv".
 
+source_code.R
+-------------------------------
+The main scenarios can be run from this code.
+
+exposure_sim_and_figures.R
+-------------------------------
+This code is for running scenarios and creating figures in the manuscript.
+
+sim_function.R
+--------------------------------
+This code is for creating the simulation function.
+
+markov_chain.R
+---------------------------------
+This code is for creating discrete Markov chains necessary for the simulation model.
+
+particle_tracking_analysis.R
+----------------------------------
+This code is for creating concentrations on surfaces informed by CFD results.
+
+sensitivity_analysis.R
+------------------------
+This code is for investigating relationships between model inputs and outputs.
