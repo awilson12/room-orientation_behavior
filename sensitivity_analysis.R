@@ -1,5 +1,5 @@
 
-iter.total<-12000 #3 care types x 2 room orientations x 2 bioaerosol conditions
+iter.total<-60000 #3 care types x 2 room orientations x 2 bioaerosol conditions
 
 #inputs
 mean.TE<-rep(NA,iter.total)
@@ -25,13 +25,13 @@ max.hands<-rep(NA,iter.total)
 
 for (i in 1:iter.total){
   
-  if (i <=6000){
+  if (i <=(iter.total/2)){
     #doing deposition + behavioural differences first
-    frame.temp.1<-total.all[total.all$run==i & total.all$model=="Deposition + Behavioural Differences",]
+    frame.temp.1<-total.all[total.all$run==i & total.all$model=="Deposition + Behavioral Differences",]
     
   }else{
     #then behavioural differences only runs (adjust i for position in vector)
-    frame.temp.1<-total.all[total.all$run==i-6000 & total.all$model=="Behavioural Differences Only",]
+    frame.temp.1<-total.all[total.all$run==i-(iter.total/2) & total.all$model=="Behavioral Differences Only",]
   }
   
   #inputs
@@ -182,7 +182,7 @@ ggplot(plot.frame,aes(x=count.gloves,y=mean.hands,group=care,color=care))+geom_p
 ggplot(plot.frame,aes(x=count.alcohol,y=mean.hands,group=care,color=care))+geom_point(size=3,alpha=0.3)+
   #geom_smooth(method="loess",size=2,color="black")+
   theme_pubr()+
-  scale_x_continuous(name="Number of Hand Sanitiser Events")+
+  scale_x_continuous(name="Number of Hand Sanitizer Events")+
   scale_linetype_discrete(name="Care Type")+
   scale_y_continuous(name="Mean Concentration on Hands")+
   scale_color_discrete(name="Care Type")+
@@ -209,6 +209,7 @@ ggplot(plot.frame,aes(x=orientation,y=log10(mean.hands),group=interaction(care,o
 
 
 #----------------------------------------------------------------------------
+require(reshape2)
 
 plot.frame.cor<-subset(plot.frame,select=c(-model,-orientation,-care,-eff))
 cormat<-round(cor(plot.frame.cor,method="spearman"),2)

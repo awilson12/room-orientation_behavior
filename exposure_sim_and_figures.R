@@ -1,29 +1,29 @@
 #--------------------#5  Comparison of estimated exposures for different types of care and room orientations ----------------------------------------------------------------------------------------------
 
 #running function for left and right room orientation - IV care
-behavior.sim(room.orientation = "left",caretype = "IV",numsequence = 1000, airsurf=TRUE)
+behavior.sim(room.orientation = "left",caretype = "IV",numsequence = iter, airsurf=airsurfarg)
 seq.IV.left<-behavior.total
 exposure.IV.left<-exposure.frame
 
-behavior.sim(room.orientation = "right",caretype = "IV",numsequence = 1000, airsurf=TRUE)
+behavior.sim(room.orientation = "right",caretype = "IV",numsequence = iter, airsurf=airsurfarg)
 seq.IV.right<-behavior.total
 exposure.IV.right<-exposure.frame
 
 # running function for left and right room orientation - Obs care
-behavior.sim(room.orientation = "left",caretype = "Obs",numsequence = 1000, airsurf=TRUE)
+behavior.sim(room.orientation = "left",caretype = "Obs",numsequence = iter, airsurf=airsurfarg)
 seq.Obs.left<-behavior.total
 exposure.Obs.left<-exposure.frame
 
-behavior.sim(room.orientation = "right",caretype = "Obs",numsequence = 1000, airsurf=TRUE)
+behavior.sim(room.orientation = "right",caretype = "Obs",numsequence = iter, airsurf=airsurfarg)
 seq.Obs.right<-behavior.total
 exposure.Obs.right<-exposure.frame
 
 # running function for left and right room orientation - Doctors' rounds
-behavior.sim(room.orientation = "left",caretype = "Rounds",numsequence = 1000, airsurf=TRUE)
+behavior.sim(room.orientation = "left",caretype = "Rounds",numsequence = iter, airsurf=airsurfarg)
 seq.Rounds.left<-behavior.total
 exposure.Rounds.left<-exposure.frame
 
-behavior.sim(room.orientation = "right",caretype = "Rounds",numsequence = 1000, airsurf=TRUE)
+behavior.sim(room.orientation = "right",caretype = "Rounds",numsequence = iter, airsurf=airsurfarg)
 seq.Rounds.right<-behavior.total
 exposure.Rounds.right<-exposure.frame
 
@@ -41,7 +41,7 @@ ggplot(data=frame.1,aes(x=time,y=handconc,group=hand))+
   scale_y_continuous(name=expression("Viral particles/cm"^2*"on hands"))+
   scale_x_continuous(name="Number of contacts")+
   scale_linetype(name="Hand")+
-  scale_color_manual(name="Behaviour",
+  scale_color_manual(name="Behavior",
                      values=c("#99CCFF","#00CC99","#006666",
                         "#FF99FF","#0099CC","#0033FF",
                         "#9966FF","#99FFCC","#CCFF66"))+
@@ -56,27 +56,27 @@ ggplot(data=frame.1,aes(x=time,y=handconc,group=hand))+
 
 
 #extract summary statistics of exposures
-hand.R.max<-rep(0,6000)
-hand.R.mean<-rep(0,6000)
-hand.L.max<-rep(0,6000)
-hand.L.mean<-rep(0,6000)
-hand.both.max<-rep(0,6000)
-hand.both.mean<-rep(0,6000)
-numcontacts<-rep(0,6000)
-gloves<-rep(0,6000)
-for (i in 1:6000){
-  if(i<=1000){
+hand.R.max<-rep(0,6*iter)
+hand.R.mean<-rep(0,6*iter)
+hand.L.max<-rep(0,6*iter)
+hand.L.mean<-rep(0,6*iter)
+hand.both.max<-rep(0,6*iter)
+hand.both.mean<-rep(0,6*iter)
+numcontacts<-rep(0,6*iter)
+gloves<-rep(0,6*iter)
+for (i in 1:(6*iter)){
+  if(i<=iter){
     frame<-exposure.IV.left[[i]]
-  }else if (i<=2000){
-    frame<-exposure.IV.right[[i-1000]]
-  }else if (i<=3000){
-    frame<-exposure.Obs.left[[i-2000]]
-  }else if (i<=4000){
-    frame<-exposure.Obs.right[[i-3000]]
-  }else if (i<=5000){
-    frame<-exposure.Rounds.left[[i-4000]]
+  }else if (i<=(2*iter)){
+    frame<-exposure.IV.right[[i-iter]]
+  }else if (i<=(3*iter)){
+    frame<-exposure.Obs.left[[i-(2*iter)]]
+  }else if (i<=(4*iter)){
+    frame<-exposure.Obs.right[[i-(3*iter)]]
+  }else if (i<=(5*iter)){
+    frame<-exposure.Rounds.left[[i-(4*iter)]]
   }else{
-    frame<-exposure.Rounds.right[[i-5000]]
+    frame<-exposure.Rounds.right[[i-(5*iter)]]
   }
   
   #left and right hand grouped
@@ -101,8 +101,8 @@ for (i in 1:6000){
   
 }
 
-room.face<-rep(c(rep("Left-facing",1000),rep("Right-facing",1000)),3)
-care<-c(rep("IV",2000),rep("Observation",2000),rep("Rounds",2000))
+room.face<-rep(c(rep("Left-facing",iter),rep("Right-facing",iter)),3)
+care<-c(rep("IV",2*iter),rep("Observation",2*iter),rep("Rounds",2*iter))
 data<-data.frame(hand.R.max=hand.R.max,hand.both.max=hand.both.max,hand.both.mean=hand.both.mean,hand.R.mean=hand.R.mean,hand.L.max=hand.L.max,hand.L.mean=hand.L.mean,numcontacts=numcontacts,room.face=room.face,care=care,gloves=gloves)
 
 behavior.example1<-exposure.IV.left[[3]]
@@ -130,9 +130,9 @@ merged$behavior[merged$behavior=="Out"]<-"Exit"
 
 #one large data set with all results
 
-for (i in 1:6000){
+for (i in 1:(6*iter)){
   
-  if(i<=1000){
+  if(i<=iter){
     if(i==1){
       total<-exposure.IV.left[[i]]
       total$care<-rep("IV",length(total$handR))
@@ -179,8 +179,8 @@ for (i in 1:6000){
       }
       frame$proploss<-rep(length(frame$loss[frame$loss=="yes"])/length(frame$behavior),length(frame$behavior))
     }
-  }else if (i<=2000){
-    frame<-exposure.IV.right[[i-1000]]
+  }else if (i<=(2*iter)){
+    frame<-exposure.IV.right[[i-iter]]
     frame$care<-rep("IV",length(frame$handR))
     frame$orientation<-rep("right",length(frame$handR))
     frame$numcontact<-c(1:length(frame$handR))
@@ -202,8 +202,8 @@ for (i in 1:6000){
     }
     frame$proploss<-rep(length(frame$loss[frame$loss=="yes"])/length(frame$behavior),length(frame$behavior))
     
-  }else if (i<=3000){
-    frame<-exposure.Obs.left[[i-2000]]
+  }else if (i<=(3*iter)){
+    frame<-exposure.Obs.left[[i-(2*iter)]]
     frame$care<-rep("Obs",length(frame$handR))
     frame$orientation<-rep("left",length(frame$handR))
     frame$numcontact<-c(1:length(frame$handR))
@@ -225,8 +225,8 @@ for (i in 1:6000){
     }
     frame$proploss<-rep(length(frame$loss[frame$loss=="yes"])/length(frame$behavior),length(frame$behavior))
     
-  }else if (i<=4000){
-    frame<-exposure.Obs.right[[i-3000]]
+  }else if (i<=(4*iter)){
+    frame<-exposure.Obs.right[[i-(3*iter)]]
     frame$care<-rep("Obs",length(frame$handR))
     frame$orientation<-rep("right",length(frame$handR))
     frame$numcontact<-c(1:length(frame$handR))
@@ -248,8 +248,8 @@ for (i in 1:6000){
     }
     frame$proploss<-rep(length(frame$loss[frame$loss=="yes"])/length(frame$behavior),length(frame$behavior))
     
-  }else if (i<=5000){
-    frame<-exposure.Rounds.left[[i-4000]]
+  }else if (i<=(5*iter)){
+    frame<-exposure.Rounds.left[[i-(4*iter)]]
     frame$care<-rep("Rounds",length(frame$handR))
     frame$orientation<-rep("left",length(frame$handR))
     frame$numcontact<-c(1:length(frame$handR))
@@ -272,7 +272,7 @@ for (i in 1:6000){
     frame$proploss<-rep(length(frame$loss[frame$loss=="yes"])/length(frame$behavior),length(frame$behavior))
     
   }else{
-    frame<-exposure.Rounds.right[[i-5000]]
+    frame<-exposure.Rounds.right[[i-5*iter]]
     frame$care<-rep("Rounds",length(frame$handR))
     frame$orientation<-rep("right",length(frame$handR))
     frame$numcontact<-c(1:length(frame$handR))
@@ -311,11 +311,11 @@ for (i in 1:6000){
 }
 
 #-----extract hand hygiene info-----------------
-alcohol<-rep(NA,6000)
-care<-rep(NA,6000)
-room<-rep(NA,6000)
+alcohol<-rep(NA,6*iter)
+care<-rep(NA,6*iter)
+room<-rep(NA,6*iter)
 
-for(i in 1:6000){
+for(i in 1:(6*iter)){
   alcohol[i]<-total$alcohol[total$run==i][1]
   care[i]<-total$care[total$run==i][1]
   room[i]<-total$orientation[total$run==i][1]
@@ -477,7 +477,7 @@ ggplot(data=bar.frame)+geom_bar(aes(y=percentage*100,x=care,fill=behavior),stat=
                         legend.box="vertical",strip.text = element_text(size=15))+
   scale_y_continuous(name="Percentage (%)")+
   scale_x_discrete(name="")+
-  scale_fill_manual(name="Behaviour",values=c("#99CCFF","#00CC99","#006666",
+  scale_fill_manual(name="Behavior",values=c("#99CCFF","#00CC99","#006666",
                                        "#FF99FF","#0099CC","#0033FF",
                                        "#9966FF","#99FFCC","#CCFF66"))
   
@@ -614,33 +614,33 @@ windows()
 ggplot(data=frame.compare.yes.behavior[frame.compare.yes.behavior$numcount<=50 & frame.compare.yes.behavior$totalyes>0 & frame.compare.yes.behavior$numcount>1,],aes(numcount,behavior))+
   geom_tile(aes(fill=totalyes),colour="black")+
   scale_fill_gradient(low="light blue",high="black",name="Number of Decreases")+scale_x_continuous(name="Contact Number")+
-  scale_y_discrete("Behaviour")+facet_wrap(orientation.total~care.total)+theme_pubr()+
+  scale_y_discrete("Behavior")+facet_wrap(orientation.total~care.total)+theme_pubr()+
   theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
         legend.text=element_text(size=20),legend.title=element_text(size=20),
         legend.box="vertical",strip.text = element_text(size=20),title=element_text(size=20))+
-  guides(fill=guide_colorbar(barwidth=10,barheight=1))+ggtitle("A")
+  guides(fill=guide_colorbar(barwidth=20,barheight=1))+ggtitle("A")
 
 windows()
 frame.compare.temp<-frame.compare.yes.behavior[!is.na(frame.compare.yes.behavior$totalchange),]
 ggplot(data=frame.compare.temp[frame.compare.temp$numcount<=50 & frame.compare.temp$totalyes>0 & frame.compare.temp$numcount>1,],aes(numcount,behavior))+
   geom_tile(aes(fill=log10(totalchange)),colour="black")+
   scale_fill_gradient2(low="white",mid="light blue",high="black",midpoint=-7,name=expression("log"[10]*phantom(x)*"Mean Change in Concentration"))+scale_x_continuous(name="Contact Number")+
-  scale_y_discrete("Behaviour")+facet_wrap(orientation.total~care.total)+theme_pubr()+
+  scale_y_discrete("Behavior")+facet_wrap(orientation.total~care.total)+theme_pubr()+
   theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
         legend.text=element_text(size=20),legend.title=element_text(size=20),
         legend.box="vertical",strip.text = element_text(size=20),title=element_text(size=20))+
   guides(fill=guide_colorbar(barwidth=20,barheight=1))+ggtitle("B")
 
-windows()
-frame.compare.temp<-frame.compare.yes.behavior[!is.na(frame.compare.yes.behavior$totalchange),]
-ggplot(data=frame.compare.temp[frame.compare.temp$numcount<=50 & frame.compare.temp$totalyes>0 & frame.compare.temp$numcount>1,],aes(numcount,behavior))+
-  geom_tile(aes(fill=totalchange),colour="black")+
-  scale_fill_gradient2(low="white",mid="light blue",high="black",name="Mean Change in Concentration")+scale_x_continuous(name="Contact Number")+
-  scale_y_discrete("Behaviour")+facet_wrap(orientation.total~care.total)+theme_pubr()+
-  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
-        legend.text=element_text(size=20),legend.title=element_text(size=20),
-        legend.box="vertical",strip.text = element_text(size=20),title=element_text(size=20))+
-  guides(fill=guide_colorbar(barwidth=20,barheight=1))+ggtitle("B")
+#windows()
+#frame.compare.temp<-frame.compare.yes.behavior[!is.na(frame.compare.yes.behavior$totalchange),]
+#ggplot(data=frame.compare.temp[frame.compare.temp$numcount<=50 & frame.compare.temp$totalyes>0 & frame.compare.temp$numcount>1,],aes(numcount,behavior))+
+#  geom_tile(aes(fill=totalchange),colour="black")+
+#  scale_fill_gradient2(low="white",mid="light blue",high="black",name="Mean Change in Concentration")+scale_x_continuous(name="Contact Number")+
+#  scale_y_discrete("Behaviour")+facet_wrap(orientation.total~care.total)+theme_pubr()+
+#  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
+#        legend.text=element_text(size=20),legend.title=element_text(size=20),
+#        legend.box="vertical",strip.text = element_text(size=20),title=element_text(size=20))+
+#  guides(fill=guide_colorbar(barwidth=20,barheight=1))+ggtitle("B")
 
 #exploring simulations with greatest loss moments
 frame.sorted<-total[order(-total$lossamount),]
@@ -665,7 +665,7 @@ frame.store$run<-factor(frame.store$run,labels=run.label)
 windows()
 ggplot(frame.store)+geom_point(aes(x=numcontact,y=handR,color=behavior,group=run),size=4)+
   geom_line(aes(x=numcontact,y=handR,group=run))+facet_wrap(~run,scales="free")+
-  scale_color_discrete(name="Behaviour")+
+  scale_color_discrete(name="Behavior")+
   scale_x_continuous((name="Contact Number"))+
   scale_y_continuous(name=expression("Viral particles/cm"^2*"on hands"))+
   theme_pubr()+

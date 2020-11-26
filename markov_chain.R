@@ -118,7 +118,7 @@ TRoundsR<-melt(TRounds.right$estimate@transitionMatrix)
 
 matrixtoplot<-TobR #or whichever matrix you want
 #have to rerun melt before new plot
-a<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", colorbar=list(
+a<-plot_ly(matrixtoplot, y = ~Var1, x = ~Var2, z = ~value, colors= "Blues", colorbar=list(
   title='Probability'
 )) %>%
   add_heatmap()%>%
@@ -126,7 +126,7 @@ a<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", colorbar
   layout(xaxis = list(title="To"), yaxis = list(title="Observation"))
 
 matrixtoplot<-TobL
-b<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", showscale=FALSE,colorbar=list(
+b<-plot_ly(matrixtoplot, y = ~Var1, x = ~Var2, z = ~value, colors= "Blues", showscale=FALSE,colorbar=list(
   title='Probability'
 )) %>%
   add_heatmap()%>%
@@ -134,7 +134,7 @@ b<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", showscal
   layout(xaxis = list(title="To"), yaxis = list(title="From"))
 
 matrixtoplot<-TIVL
-c<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", showscale=FALSE,colorbar=list(
+c<-plot_ly(matrixtoplot, y = ~Var1, x = ~Var2, z = ~value, colors= "Blues", showscale=FALSE,colorbar=list(
   title='Probability'
 )) %>%
   add_heatmap()%>%
@@ -142,7 +142,7 @@ c<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", showscal
   layout(xaxis = list(title="To"), yaxis = list(title="IV"))
 
 matrixtoplot<-TIVR
-d<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", showscale=FALSE,colorbar=list(
+d<-plot_ly(matrixtoplot, y =~Var1, x = ~Var2, z = ~value, colors= "Blues", showscale=FALSE,colorbar=list(
   title='Probability'
 )) %>%
   add_heatmap()%>%
@@ -150,7 +150,7 @@ d<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", showscal
   layout(xaxis = list(title="To"), yaxis = list(title="From"))
 
 matrixtoplot<-TRoundsL
-e<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", showscale=FALSE, colorbar=list(
+e<-plot_ly(matrixtoplot, y = ~Var1, x = ~Var2, z = ~value, colors= "Blues", showscale=FALSE, colorbar=list(
   title='Probability'
 )) %>%
   add_heatmap()%>%
@@ -159,7 +159,7 @@ e<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", showscal
 
 
 matrixtoplot<-TRoundsR
-f<-plot_ly(matrixtoplot, y = ~X1, x = ~X2, z = ~value, colors= "Blues", showscale=FALSE,colorbar=list(
+f<-plot_ly(matrixtoplot, y = ~Var1, x = ~Var2, z = ~value, colors= "Blues", showscale=FALSE,colorbar=list(
   title='Probability'
 )) %>%
   add_heatmap()%>%
@@ -171,7 +171,7 @@ p
 
 matrixtoplot<-TRoundsL
 
-e<-ggplot(matrixtoplot)+geom_tile(aes(y=X1,x=X2,fill=value))+
+e<-ggplot(matrixtoplot)+geom_tile(aes(y=Var1,x=Var2,fill=value))+
   ggtitle("Left-facing")+theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),
         legend.text = element_text(size=16),title=element_text(size=18),
@@ -182,7 +182,7 @@ e<-ggplot(matrixtoplot)+geom_tile(aes(y=X1,x=X2,fill=value))+
   scale_fill_continuous(name="Transitional Probability")
 
 matrixtoplot<-TRoundsR
-f<-ggplot(matrixtoplot)+geom_tile(aes(y=X1,x=X2,fill=value))+
+f<-ggplot(matrixtoplot)+geom_tile(aes(y=Var1,x=Var2,fill=value))+
   ggtitle("Right-facing")+theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),
         legend.text = element_text(size=16),title=element_text(size=18),
