@@ -372,11 +372,29 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
       }
       
     } #end of time loop
-      
-      
+    
+    #start of infection loop
+    
+    hand.face<-sample(c("right","left"),1)
+    
+    TE.HM<-
+    S.F<-
+    
+    #disaggregated approximate BP from Teunis, values from
+    #Van Abel
+    alpha<-0.104
+    beta<-32.3
+    
+    if(hand.face=="right"){
+      dose<-handR[a]*TE.HM*A.hand*S.F
+    }else{
+      dose<-handL[a]*TE.HM*A.hand*S.F
+    }
+    infect<-1-(1+(dose/beta))^-alpha  
     
     # -------------------------------- SAVE OUTPUT FOR SIMULATION FOR SINGLE PERSON ----------------------------------------------------------------------------------
-    exposure.frame.temp<-data.frame(handR=handR,handL=handL,hand=hand,gloves=gloves,hygiene=hygiene,behavior=behavior,SH=SH,transfer=transfer,surfconc=surfconc,airsurf=airsurf)
+    exposure.frame.temp<-data.frame(handR=handR,handL=handL,hand=hand,gloves=gloves,hygiene=hygiene,behavior=behavior,SH=SH,transfer=transfer,surfconc=surfconc,airsurf=airsurf,
+                                    TE.HM=TE.HM,S.M=S.M,dose=dose,infect=infect,hand.face=hand.face,A.hand)
     #print(exposure.frame)
     #save behavior sequence in list with position j
     behavior.total[[j]]<-behavior

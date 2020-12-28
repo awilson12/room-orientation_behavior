@@ -9,6 +9,7 @@ if("plyr" %in% rownames(installed.packages())==FALSE){install.packages("plyr"); 
 if("markovchain" %in% rownames(installed.packages())==FALSE){install.packages("markovchain"); require(markovchain)}else{require(markovchain)}
 if("ggplot2" %in% rownames(installed.packages())==FALSE){install.packages("ggplot2"); require(ggplot2)}else{require(ggplot2)}
 if("ggpubr" %in% rownames(installed.packages())==FALSE){install.packages("ggpubr"); require(ggpubr)}else{require(ggpubr)}
+if("gsl" %in% rownames(installed.packages())==FALSE){install.packages("gsl"); require(gsl)}else{require(gsl)}
 
 #set up Markov chains
 suppressMessages(suppressWarnings(source("markov_chain.R")))
