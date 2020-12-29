@@ -64,7 +64,8 @@ hand.both.max<-rep(0,6*iter)
 hand.both.mean<-rep(0,6*iter)
 numcontacts<-rep(0,6*iter)
 infection<-rep(0,6*iter)
-gloves<-rep(0,6*iter)
+handhygiene<-rep(0,6*iter)
+patcontact<-rep(0,6*iter)
 for (i in 1:(6*iter)){
   if(i<=iter){
     frame<-exposure.IV.left[[i]]
@@ -84,6 +85,12 @@ for (i in 1:(6*iter)){
   hand.both.max[i]<-max(c(frame$handR,frame$handL))
   hand.both.mean[i]<-mean(c(frame$handR,frame$handL))
   
+  if(length(frame$handR[!is.na(frame$hygiene)])>0){
+    handhygiene[i]<-"yes"
+  }else{
+    handhygiene[i]<-"no"
+  }
+  
   #right hand only
   hand.R.max[i]<-max(frame$handR)
   hand.R.mean[i]<-mean(frame$handR)
@@ -94,11 +101,7 @@ for (i in 1:(6*iter)){
   
   infection[i]<-frame$infect[1]
   
-  # if (length(frame$behavior[frame$behavior=="GlovesOn"])>0){
-  #    gloves[i]<-"yes"
-  # }else{
-  #  gloves[i]<-"no"
-  # }
+  patcontact[i]<-length(frame$behavior[frame$behavior=="Patient"])
   
   numcontacts[i]<-length(frame$handR)
   
@@ -108,8 +111,8 @@ room.face<-rep(c(rep("Left-facing",iter),rep("Right-facing",iter)),3)
 care<-c(rep("IV",2*iter),rep("Observation",2*iter),rep("Rounds",2*iter))
 data<-data.frame(hand.R.max=hand.R.max,hand.both.max=hand.both.max,hand.both.mean=hand.both.mean,
                  hand.R.mean=hand.R.mean,hand.L.max=hand.L.max,hand.L.mean=hand.L.mean,
-                 infection=infection,
-                 numcontacts=numcontacts,room.face=room.face,care=care,gloves=gloves)
+                 infection=infection,handhygiene=handhygiene,patcontact=patcontact,
+                 numcontacts=numcontacts,room.face=room.face,care=care)
 
 behavior.example1<-exposure.IV.left[[3]]
 behavior.example1$numcontact<-c(1:length(behavior.example1$handR))
@@ -131,6 +134,16 @@ merged$behavior[merged$behavior=="FarPatient"]<-"Far Patient Surface"
 merged$behavior[merged$behavior=="Alcohol"]<-"Hand Hygiene"
 merged$behavior[merged$behavior=="In"]<-"Entrance"
 merged$behavior[merged$behavior=="Out"]<-"Exit"
+
+data2<-data
+data2$patcat<-"0 contacts"
+data2$patcat[data2$patcontact>0]<-">0 contacts"
+
+ggplot(data2)+
+  geom_violin(aes(x=care,y=infection,group=interaction(care,room.face),fill=room.face),draw_quantiles = c(0.25,0.5,0.75))+
+  scale_y_continuous(trans="log10")+
+  facet_wrap(handhygiene~patcat)
+
 
 # ------------------ trends over course of contacts over all
 
@@ -476,6 +489,7 @@ care<-c(rep(c("IV","IV","Obs","Obs","Rounds","Rounds"),9))
 orientation<-rep(c("Left-facing","Right-facing","Left-facing","Right-facing","Left-facing","Right-facing"),9)
 bar.frame<-data.frame(pecentage=percentage,behavior=behavior,care=care,orientation=orientation)
 
+windows()
 ggplot(data=bar.frame)+geom_bar(aes(y=percentage*100,x=care,fill=behavior),stat="identity")+facet_wrap(~orientation)+
   theme_pubr()+
   theme(axis.text=element_text(size=15),axis.title=element_text(size=15),

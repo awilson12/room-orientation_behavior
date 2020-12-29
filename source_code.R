@@ -68,6 +68,10 @@ ggplot(data=data.all.combined[data.all.combined$numcount<=25 & data.all.combined
         legend.text=element_text(size=15),legend.title=element_text(size=15),
         legend.box="vertical",strip.text = element_text(size=15))
 
+windows()
+ggplot(data=data.all.combined[data.all.combined$model=="Deposition + Behavioral Differences",])+
+  geom_violin(aes(x=care,y=infection))
+
 #suppressMessages(suppressWarnings(source("sensitivity_analysis.R")))
 
 
