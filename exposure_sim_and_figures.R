@@ -114,6 +114,31 @@ data<-data.frame(hand.R.max=hand.R.max,hand.both.max=hand.both.max,hand.both.mea
                  infection=infection,handhygiene=handhygiene,patcontact=patcontact,
                  numcontacts=numcontacts,room.face=room.face,care=care)
 
+
+#summary stats for infection risk
+
+doctor.left<-mean(data$infection[data$care=="Rounds" & data$room.face=="Left-facing"])
+iv.left<-mean(data$infection[data$care=="IV" & data$room.face=="Left-facing"])
+obs.left<-mean(data$infection[data$care=="Observation" & data$room.face=="Left-facing"])
+
+(doctor.left-iv.left)/iv.left*100
+
+(doctor.left-obs.left)/obs.left*100
+
+doctor.right<-mean(data$infection[data$care=="Rounds" & data$room.face=="Right-facing"])
+iv.right<-mean(data$infection[data$care=="IV" & data$room.face=="Right-facing"])
+obs.right<-mean(data$infection[data$care=="Observation" & data$room.face=="Right-facing"])
+
+(doctor.right-iv.right)/iv.right*100
+
+(doctor.right-obs.right)/obs.right*100
+
+#comparison between rooms
+(doctor.right-doctor.left)/doctor.left*100
+(iv.right-iv.left)/iv.left*100
+(obs.left-obs.right)/obs.right*100
+
+
 behavior.example1<-exposure.IV.left[[3]]
 behavior.example1$numcontact<-c(1:length(behavior.example1$handR))
 
