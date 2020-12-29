@@ -401,7 +401,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     
     # -------------------------------- SAVE OUTPUT FOR SIMULATION FOR SINGLE PERSON ----------------------------------------------------------------------------------
     exposure.frame.temp<-data.frame(handR=handR,handL=handL,hand=hand,gloves=gloves,hygiene=hygiene,behavior=behavior,SH=SH,transfer=transfer,surfconc=surfconc,airsurf=airsurf,
-                                    TE.HM=TE.HM,S.M=S.M,dose=dose,infect=infect,hand.face=hand.face,A.hand)
+                                    TE.HM=TE.HM,S.F=S.F,dose=dose,infect=infect,hand.face=hand.face,A.hand)
     #print(exposure.frame)
     #save behavior sequence in list with position j
     behavior.total[[j]]<-behavior

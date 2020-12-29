@@ -1,7 +1,7 @@
 
 #------------------------- #3 Reading in ANSYS results to make variable surface concentrations ---------------------------------------------------------------------------
 
-ANSYS<-read.csv('C:/Users/wilso/Documents/Research/dissertation/preparation of chapters/Other materials/ANSYS St. James files/particle_comparison.csv')
+ANSYS<-read.csv('particle_comparison.csv')
 
 View(ANSYS)
 
