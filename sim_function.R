@@ -376,9 +376,16 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     #start of infection loop
     
     hand.face<-sample(c("right","left"),1)
+    if(gloves[a]==1){
+      #if wearing gloves...
+      TE.HM<-0.61*rtrunc(1,"norm",mean=0.3390,sd=0.1318,a=0,b=1)
+    }else{
+      #otherwise...
+      TE.HM<-rtrunc(1,"norm",mean=0.3390,sd=0.1318,a=0,b=1)
+    }
     
-    TE.HM<-
-    S.F<-
+    S.F<-runif(1,0.006,0.012)
+    A.hand<-runif(1,445,535)
     
     #disaggregated approximate BP from Teunis, values from
     #Van Abel

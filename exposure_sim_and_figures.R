@@ -63,6 +63,7 @@ hand.L.mean<-rep(0,6*iter)
 hand.both.max<-rep(0,6*iter)
 hand.both.mean<-rep(0,6*iter)
 numcontacts<-rep(0,6*iter)
+infection<-rep(0,6*iter)
 gloves<-rep(0,6*iter)
 for (i in 1:(6*iter)){
   if(i<=iter){
@@ -90,6 +91,8 @@ for (i in 1:(6*iter)){
   #left hand only 
   hand.L.max[i]<-max(frame$handL)
   hand.L.mean[i]<-mean(frame$handL)
+  
+  infection[i]<-frame$infect[1]
   
   # if (length(frame$behavior[frame$behavior=="GlovesOn"])>0){
   #    gloves[i]<-"yes"
