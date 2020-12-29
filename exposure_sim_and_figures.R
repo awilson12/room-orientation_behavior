@@ -106,7 +106,10 @@ for (i in 1:(6*iter)){
 
 room.face<-rep(c(rep("Left-facing",iter),rep("Right-facing",iter)),3)
 care<-c(rep("IV",2*iter),rep("Observation",2*iter),rep("Rounds",2*iter))
-data<-data.frame(hand.R.max=hand.R.max,hand.both.max=hand.both.max,hand.both.mean=hand.both.mean,hand.R.mean=hand.R.mean,hand.L.max=hand.L.max,hand.L.mean=hand.L.mean,numcontacts=numcontacts,room.face=room.face,care=care,gloves=gloves)
+data<-data.frame(hand.R.max=hand.R.max,hand.both.max=hand.both.max,hand.both.mean=hand.both.mean,
+                 hand.R.mean=hand.R.mean,hand.L.max=hand.L.max,hand.L.mean=hand.L.mean,
+                 infection=infection,
+                 numcontacts=numcontacts,room.face=room.face,care=care,gloves=gloves)
 
 behavior.example1<-exposure.IV.left[[3]]
 behavior.example1$numcontact<-c(1:length(behavior.example1$handR))
