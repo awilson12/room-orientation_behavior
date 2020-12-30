@@ -117,17 +117,25 @@ data<-data.frame(hand.R.max=hand.R.max,hand.both.max=hand.both.max,hand.both.mea
 
 #summary stats for infection risk
 
-doctor.left<-mean(data$infection[data$care=="Rounds" & data$room.face=="Left-facing"])
-iv.left<-mean(data$infection[data$care=="IV" & data$room.face=="Left-facing"])
-obs.left<-mean(data$infection[data$care=="Observation" & data$room.face=="Left-facing"])
+doctor.left<-signif(mean(data$infection[data$care=="Rounds" & data$room.face=="Left-facing"]),2)
+iv.left<-signif(mean(data$infection[data$care=="IV" & data$room.face=="Left-facing"]),2)
+obs.left<-signif(mean(data$infection[data$care=="Observation" & data$room.face=="Left-facing"]),2)
+
+#doctor.left2<-median(data$infection[data$care=="Rounds" & data$room.face=="Left-facing"])
+#iv.left2<-median(data$infection[data$care=="IV" & data$room.face=="Left-facing"])
+#obs.left2<-median(data$infection[data$care=="Observation" & data$room.face=="Left-facing"])
 
 (doctor.left-iv.left)/iv.left*100
 
 (doctor.left-obs.left)/obs.left*100
 
-doctor.right<-mean(data$infection[data$care=="Rounds" & data$room.face=="Right-facing"])
-iv.right<-mean(data$infection[data$care=="IV" & data$room.face=="Right-facing"])
-obs.right<-mean(data$infection[data$care=="Observation" & data$room.face=="Right-facing"])
+doctor.right<-signif(mean(data$infection[data$care=="Rounds" & data$room.face=="Right-facing"]),2)
+iv.right<-signif(mean(data$infection[data$care=="IV" & data$room.face=="Right-facing"]),2)
+obs.right<-signif(mean(data$infection[data$care=="Observation" & data$room.face=="Right-facing"]),2)
+
+#doctor.right2<-median(data$infection[data$care=="Rounds" & data$room.face=="Right-facing"])
+#iv.right2<-median(data$infection[data$care=="IV" & data$room.face=="Right-facing"])
+#obs.right2<-median(data$infection[data$care=="Observation" & data$room.face=="Right-facing"])
 
 (doctor.right-iv.right)/iv.right*100
 
