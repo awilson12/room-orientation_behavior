@@ -120,23 +120,23 @@ ggplot(data[data$handhygienecount>0,])+
 
 #left-facing---------------------------------------------------------------------------------------------
 data.cor<-data[data$care=="Observation" & data$room.face=="Left-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="pearson")
+cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
 data.cor<-data[data$care=="Rounds" & data$room.face=="Left-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="pearson")
+cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
 data.cor<-data[data$care=="IV" & data$room.face=="Left-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="pearson")
+cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
 #right-facing----------------------------------------------------------------------------------------------
 data.cor<-data[data$care=="Observation" & data$room.face=="Right-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="pearson")
+cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
 data.cor<-data[data$care=="Rounds" & data$room.face=="Right-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="pearson")
+cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
 data.cor<-data[data$care=="IV" & data$room.face=="Right-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="pearson")
+cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
 
 
