@@ -138,7 +138,54 @@ cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$nu
 data.cor<-data[data$care=="IV" & data$room.face=="Right-facing" & data$handhygienecount>0,]
 cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
+#------------------------ Looking into glove doffing/donning issue - how often are gloves doffed when not donned or donned
+#------------------------ when already donned?
 
+source('sim_function_v2_PPEcheck.R')
+
+#running function for left and right room orientation - IV care
+behavior.sim2(room.orientation = "left",caretype = "IV",numsequence = iter, airsurf=airsurfarg)
+gloveissuetotal.LIV<-gloveissuetotal
+numyes.LIV<-length(gloveissuetotal.LIV[!is.na(gloveissuetotal.LIV)])
+percentyes.LIV<-numyes.LIV/length(gloveissuetotal.LIV)*100
+
+behavior.sim2(room.orientation = "right",caretype = "IV",numsequence = iter, airsurf=airsurfarg)
+gloveissuetotal.RIV<-gloveissuetotal
+numyes.RIV<-length(gloveissuetotal.RIV[!is.na(gloveissuetotal.RIV)])
+percentyes.RIV<-numyes.RIV/length(gloveissuetotal.RIV)*100
+
+# running function for left and right room orientation - Obs care
+behavior.sim2(room.orientation = "left",caretype = "Obs",numsequence = iter, airsurf=airsurfarg)
+gloveissuetotal.LObs<-gloveissuetotal
+numyes.LObs<-length(gloveissuetotal.LObs[!is.na(gloveissuetotal.LObs)])
+percentyes.LObs<-numyes.LObs/length(gloveissuetotal.LObs)*100
+
+behavior.sim2(room.orientation = "right",caretype = "Obs",numsequence = iter, airsurf=airsurfarg)
+gloveissuetotal.RObs<-gloveissuetotal
+numyes.RObs<-length(gloveissuetotal.RObs[!is.na(gloveissuetotal.RObs)])
+percentyes.RObs<-numyes.RObs/length(gloveissuetotal.RObs)*100
+
+# running function for left and right room orientation - Doctors' rounds
+behavior.sim2(room.orientation = "left",caretype = "Rounds",numsequence = iter, airsurf=airsurfarg)
+gloveissuetotal.LRounds<-gloveissuetotal
+numyes.LRounds<-length(gloveissuetotal.LRounds[!is.na(gloveissuetotal.LRounds)])
+percentyes.LRounds<-numyes.LRounds/length(gloveissuetotal.LRounds)*100
+
+behavior.sim2(room.orientation = "right",caretype = "Rounds",numsequence = iter, airsurf=airsurfarg)
+gloveissuetotal.RRounds<-gloveissuetotal
+numyes.RRounds<-length(gloveissuetotal.RRounds[!is.na(gloveissuetotal.RRounds)])
+percentyes.RRounds<-numyes.RRounds/length(gloveissuetotal.RRounds)*100
+
+
+#left-facing rooms
+percentyes.LIV
+percentyes.LRounds
+percentyes.LObs
+
+#right-facing rooms
+percentyes.RIV
+percentyes.RRounds
+percentyes.RObs
 
 
 
