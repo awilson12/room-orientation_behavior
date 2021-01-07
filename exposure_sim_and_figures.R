@@ -65,6 +65,7 @@ hand.both.mean<-rep(0,6*iter)
 numcontacts<-rep(0,6*iter)
 infection<-rep(0,6*iter)
 handhygiene<-rep(0,6*iter)
+handhygienecount<-rep(0,6*iter)
 patcontact<-rep(0,6*iter)
 for (i in 1:(6*iter)){
   if(i<=iter){
@@ -528,7 +529,7 @@ ggplot(data=bar.frame)+geom_bar(aes(y=percentage*100,x=care,fill=behavior),stat=
   theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
                         legend.text=element_text(size=15),legend.title=element_text(size=15),
                         legend.box="vertical",strip.text = element_text(size=15))+
-  scale_y_continuous(name="Percentage (%)")+
+  scale_y_continuous(name="Percent of Simulated Behaviors Comprising Care Episodes")+
   scale_x_discrete(name="")+
   scale_fill_manual(name="Behavior",values=c("#99CCFF","#00CC99","#006666",
                                        "#FF99FF","#0099CC","#0033FF",
