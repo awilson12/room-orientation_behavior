@@ -47,6 +47,8 @@ handhygiene<-rep(0,6*iter)
 handhygienecount<-rep(0,6*iter)
 patcontact<-rep(0,6*iter)
 numevents<-rep(0,6*iter)
+numgloves<-rep(0,6*iter)
+
 for (i in 1:(6*iter)){
   if(i<=iter){
     frame<-exposure.IV.left[[i]]
@@ -88,7 +90,7 @@ for (i in 1:(6*iter)){
   
   patcontact[i]<-length(frame$behavior[frame$behavior=="Patient"])
   
-  numcontacts[i]<-length(frame$handR)
+  numgloves[i]<-length(frame$handR[frame$behavior=="Gloves"])
   
 }
 
@@ -97,20 +99,19 @@ care<-c(rep("IV",2*iter),rep("Observation",2*iter),rep("Rounds",2*iter))
 data<-data.frame(hand.R.max=hand.R.max,hand.both.max=hand.both.max,hand.both.mean=hand.both.mean,
                  hand.R.mean=hand.R.mean,hand.L.max=hand.L.max,hand.L.mean=hand.L.mean,
                  infection=infection,handhygiene=handhygiene,handhygienecount=handhygienecount,
-                 patcontact=patcontact,numevents=numevents,
-                 numcontacts=numcontacts,room.face=room.face,care=care)
-
+                 patcontact=patcontact,numevents=numevents,numgloves=numgloves,
+                 room.face=room.face,care=care)
 require(ggpmisc)
 
 windows()
 ggplot(data[data$handhygienecount>0,])+
-  geom_point(aes(x=handhygienecount/numevents*100,y=hand.R.mean,color=room.face),size=4,alpha=0.5)+
+  geom_point(aes(x=handhygienecount/numevents*100,y=hand.both.mean,color=room.face),size=4,alpha=0.5)+
   scale_x_continuous(name="Percent of Events Comprising Hand Hygiene",trans="log10",
                      labels = scales::number_format(accuracy = 1))+
-  scale_y_continuous(name="Mean Concentration on Right Hand",trans="log10")+
-  stat_cor(method = "spearman", label.x = 0,label.y=-3,size=5,aes(x=handhygienecount/numevents*100,y=hand.R.mean))+
+  scale_y_continuous(name="Mean Concentration on Both Hands",trans="log10")+
+  stat_cor(method = "spearman", label.x = 0,label.y=-3,size=5,aes(x=handhygienecount/numevents*100,y=hand.both.mean))+
   #geom_smooth(aes(x=handhygienecount/numevents*100,y=hand.R.mean),method="lm")+
-  stat_smooth(method = "lm", aes(x=handhygienecount/numevents*100,y=hand.R.mean),color="black")+
+  stat_smooth(method = "lm", aes(x=handhygienecount/numevents*100,y=hand.both.mean),color="black")+
   scale_color_manual(name="",values=c("#99FFCC","#99CCFF"))+
   facet_wrap(room.face~care)+
   theme_pubr()+
