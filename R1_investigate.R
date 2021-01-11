@@ -106,7 +106,7 @@ require(ggpmisc)
 windows()
 ggplot(data[data$handhygienecount>0,])+
   geom_point(aes(x=handhygienecount/numevents*100,y=hand.both.mean,color=room.face),size=4,alpha=0.5)+
-  scale_x_continuous(name="Percent of Events Comprising Hand Hygiene",trans="log10",
+  scale_x_continuous(name="Hand Sanitizer Events / Total Events (%)",trans="log10",
                      labels = scales::number_format(accuracy = 1))+
   scale_y_continuous(name="Mean Concentration on Both Hands",trans="log10")+
   stat_cor(method = "spearman", label.x = 0,label.y=-3,size=5,aes(x=handhygienecount/numevents*100,y=hand.both.mean))+
