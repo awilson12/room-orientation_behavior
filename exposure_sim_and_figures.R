@@ -534,7 +534,9 @@ ggplot(data=bar.frame)+geom_bar(aes(y=percentage*100,x=care,fill=behavior),stat=
   scale_fill_manual(name="Behavior",values=c("#99CCFF","#00CC99","#006666",
                                        "#FF99FF","#0099CC","#0033FF",
                                        "#9966FF","#99FFCC","#CCFF66"))
-  
+bar.frame$pecentage[bar.frame$behavior=="Patient" & bar.frame$orientation=="Left-facing" & bar.frame$care=="Rounds"]
+
+bar.frame$pecentage[bar.frame$behavior=="Patient" & bar.frame$orientation=="Right-facing" & bar.frame$care=="Rounds"]
 
 ####################################################################################
 
