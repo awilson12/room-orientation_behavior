@@ -211,7 +211,7 @@ ggplot(plot.frame,aes(x=orientation,y=log10(mean.hands),group=interaction(care,o
 #----------------------------------------------------------------------------
 require(reshape2)
 
-plot.frame.cor<-subset(plot.frame,select=c(-model,-orientation,-care,-eff))
+plot.frame.cor<-subset(plot.frame,select=c(-model,-orientation,-care,-eff,-patient))
 cormat<-round(cor(plot.frame.cor,method="spearman"),2)
 melted_cormat<-melt(cormat)
 
