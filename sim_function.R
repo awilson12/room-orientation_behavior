@@ -92,15 +92,15 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     estimated.chair.1<-estimated.particle*particle.chair.1/SA.chair.1
     
     #door
-    particle.door.1<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==1]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==1]
-    SA.door.1<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==1]
-    estimated.door.1<-estimated.particle*particle.door.1/SA.door.1
+    #particle.door.1<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==1]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==1]
+    #SA.door.1<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==1]
+    #estimated.door.1<-estimated.particle*particle.door.1/SA.door.1
     
-    Nearpatient.1<-c(estimated.trolley.1,estimated.bed.1,estimated.chair.1,estimated.door.1)
+    Nearpatient.1<-c(estimated.trolley.1,estimated.bed.1,estimated.chair.1)
     
     # Out (door) ---------------------------------------------
     
-    out.1<-estimated.door.1
+    out.1<-0 #changed to zero conc
     
     #patient (rest of patient, face) -------------------------------
     particle.restofpatient.1<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==1]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==1]
@@ -117,9 +117,9 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
       #Farpatient (door)-------------------------
       
       #door
-      particle.door.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]
-      SA.door.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]
-      estimated.door.2<-estimated.particle*particle.door.2/SA.door.2
+      #particle.door.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]
+      #SA.door.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]
+      #estimated.door.2<-estimated.particle*particle.door.2/SA.door.2
       
       #Nearpatient (trolley, bed, chair, desk)-----------------
       
@@ -151,7 +151,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
       
     }else{
       #otherwise, we assume same deposition pattern as right-facing
-      estimated.door.2<-estimated.door.1
+      estimated.door.2<-0
       estimated.trolley.2<-estimated.trolley.1
       estimated.bed.2<-estimated.bed.1
       estimated.chair.2<-estimated.chair.1
@@ -160,7 +160,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     }
     
     
-    Farpatient.2<-estimated.door.2
+    Farpatient.2<-0
     Nearpatient.2<-c(estimated.trolley.2,estimated.bed.2,estimated.chair.2,estimated.desk.2)
     Patient.2<-c(estimated.patient.2)
     out.2<-estimated.door.2
