@@ -53,8 +53,8 @@ for (i in 1:iter.total){
   model[i]<-frame.temp.1$model[1]
   
   #outputs
-  mean.hands[i]<-mean(frame.temp.1$handR + frame.temp.1$handL)
-  max.hands[i]<-max(frame.temp.1$handR + frame.temp.1$handL)
+  mean.hands[i]<-mean((frame.temp.1$handR + frame.temp.1$handL)/2) #mean of the mean concentrations on hands over time
+  max.hands[i]<-max((frame.temp.1$handR + frame.temp.1$handL)/2) #max of the mean concentration on hands over time
   
 }
 

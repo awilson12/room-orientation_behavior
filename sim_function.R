@@ -10,6 +10,7 @@ lambda<-lambda$X1
 
 behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs","Rounds"),numsequence,airsurf=TRUE){
    set.seed(34)
+    
   
  
   #Behavior model section
@@ -63,13 +64,13 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     
     
     #Farpatient (desk)-------------------------
-    
+    ANSYS<-ANSYS[ANSYS$ACH==10 & ANSYS$CONDITION=="Window In, Window Out",]
     ANSYS$ORIENTATION[ANSYS$ORIENTATION=="Right-facing"]<-1
     ANSYS$ORIENTATION[ANSYS$ORIENTATION=="Left-facing"]<-2
     
     
     #desk
-    particle.desk.1<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==1]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==1]
+    particle.desk.1<-ANSYS$FRACTION[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==1]
     SA.desk.1<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==1]
     estimated.desk.1<-(estimated.particle*particle.desk.1)/SA.desk.1
     Farpatient.1<-estimated.desk.1
@@ -77,17 +78,17 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     #Nearpatient (trolley, bed, chair, door)-----------------
     
     #trolley (sidetable)
-    particle.trolley.1<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==1]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==1]
+    particle.trolley.1<-ANSYS$FRACTION[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==1]
     SA.trolley.1<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==1]
     estimated.trolley.1<-estimated.particle*particle.trolley.1/SA.trolley.1
     
     #bed
-    particle.bed.1<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==1]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==1]
+    particle.bed.1<-ANSYS$FRACTION[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==1]
     SA.bed.1<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==1]
     estimated.bed.1<-estimated.particle*particle.bed.1/SA.bed.1
     
     #chair
-    particle.chair.1<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==1]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==1]
+    particle.chair.1<-ANSYS$FRACTION[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==1]
     SA.chair.1<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==1]
     estimated.chair.1<-estimated.particle*particle.chair.1/SA.chair.1
     
@@ -96,6 +97,11 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     #SA.door.1<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==1]
     #estimated.door.1<-estimated.particle*particle.door.1/SA.door.1
     
+    #wall
+    particle.wall.1<-ANSYS$FRACTION[ANSYS$SURFACE=="wall" & ANSYS$ORIENTATION==1]
+    SA.wall.1<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="wall" & ANSYS$ORIENTATION==1]
+    estimated.wall.1<-estimated.particle*particle.wall.1/SA.wall.1
+    
     Nearpatient.1<-c(estimated.trolley.1,estimated.bed.1,estimated.chair.1)
     
     # Out (door) ---------------------------------------------
@@ -103,7 +109,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     out.1<-0 #changed to zero conc
     
     #patient (rest of patient, face) -------------------------------
-    particle.restofpatient.1<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==1]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==1]
+    particle.restofpatient.1<-ANSYS$FRACTION[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==1]
     SA.patient.1<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==1]
     estimated.patient.1<-estimated.particle*particle.restofpatient.1/SA.patient.1
     
@@ -114,44 +120,46 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
       
       #orientation 2 (left-facing)
       
-      #Farpatient (door)-------------------------
+      #Farpatient (wall)-------------------------
       
-      #door
-      #particle.door.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]
-      #SA.door.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="door" & ANSYS$ORIENTATION==2]
-      #estimated.door.2<-estimated.particle*particle.door.2/SA.door.2
+      #wall
+      particle.wall.2<-ANSYS$FRACTION[ANSYS$SURFACE=="wall" & ANSYS$ORIENTATION==2]
+      SA.wall.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="wall" & ANSYS$ORIENTATION==2]
+      estimated.wall.2<-estimated.particle*particle.wall.2/SA.wall.2
       
       #Nearpatient (trolley, bed, chair, desk)-----------------
       
       #trolley (sidetable)
-      particle.trolley.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==2]
+      particle.trolley.2<-ANSYS$FRACTION[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==2]
       SA.trolley.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="side table" & ANSYS$ORIENTATION==2]
       estimated.trolley.2<-estimated.particle*particle.trolley.2/SA.trolley.2
       
       #bed
-      particle.bed.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==2]
+      particle.bed.2<-ANSYS$FRACTION[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==2]
       SA.bed.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="bed" & ANSYS$ORIENTATION==2]
       estimated.bed.2<-estimated.particle*particle.bed.2/SA.bed.2
       
       #chair
-      particle.chair.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==2]
+      particle.chair.2<-ANSYS$FRACTION[ANSYS$SURFACE=="chair" & ANSYS$ORIENTATION==2]
       SA.chair.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="chair"& ANSYS$ORIENTATION==2]
       estimated.chair.2<-estimated.particle*particle.chair.2/SA.chair.2
       
       #desk
-      particle.desk.2<-ANSYS$CO2[ANSYS$X1=="desk" & ANSYS$Orientation==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==2]
+      particle.desk.2<-ANSYS$FRACTION[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==2]
       SA.desk.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="desk" & ANSYS$ORIENTATION==2]
       estimated.desk.2<-estimated.particle*particle.desk.2/SA.desk.2
       
       #patient (rest of patient, face) -------------------------------
-      particle.patient.2<-ANSYS$NUMBER.PARTICLE[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==2]/ANSYS$TOTAL.PARTICLE[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==2]
+      particle.patient.2<-ANSYS$FRACTION[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==2]
       SA.patient.2<-ANSYS$SURFACEAREAm2[ANSYS$SURFACE=="patient" & ANSYS$ORIENTATION==2]
       estimated.patient.2<-estimated.particle*particle.patient.2/SA.patient.2
       
+      estimated.door.2<-0
       
     }else{
       #otherwise, we assume same deposition pattern as right-facing
       estimated.door.2<-0
+      estimated.wall.2<-estimated.wall.1
       estimated.trolley.2<-estimated.trolley.1
       estimated.bed.2<-estimated.bed.1
       estimated.chair.2<-estimated.chair.1
@@ -160,7 +168,7 @@ behavior.sim<-function(room.orientation=c("left","right"),caretype=c("IV","Obs",
     }
     
     
-    Farpatient.2<-0
+    Farpatient.2<-estimated.wall.2
     Nearpatient.2<-c(estimated.trolley.2,estimated.bed.2,estimated.chair.2,estimated.desk.2)
     Patient.2<-c(estimated.patient.2)
     out.2<-estimated.door.2

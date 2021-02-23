@@ -104,7 +104,7 @@ data<-data.frame(hand.R.max=hand.R.max,hand.both.max=hand.both.max,hand.both.mea
 require(ggpmisc)
 
 windows()
-ggplot(data[data$handhygienecount>0,])+
+ggplot(data[data$handhygienecount>0 & data$patcontact>=1,])+
   geom_point(aes(x=handhygienecount/numevents*100,y=hand.both.mean,color=room.face),size=4,alpha=0.5)+
   scale_x_continuous(name="Hand Sanitizer Events / Total Events (%)",trans="log10",
                      labels = scales::number_format(accuracy = 1))+
@@ -116,28 +116,43 @@ ggplot(data[data$handhygienecount>0,])+
   facet_wrap(room.face~care)+
   theme_pubr()+
   theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
-             legend.text=element_text(size=15),legend.title=element_text(size=15),
+             legend.text=element_text(size=15),legend.title=element_text(size=13),
              legend.box="vertical",strip.text = element_text(size=15))
 
+ggplot(data)+
+  geom_point(aes(x=handhygienecount,y=hand.both.mean,color=room.face),size=4,alpha=0.5)+
+  scale_x_continuous(name="Hand Sanitizer Events / Total Events (%)",trans="log10",
+                     labels = scales::number_format(accuracy = 1))+
+  scale_y_continuous(name="Mean Concentration on Both Hands",trans="log10")+
+  stat_cor(method = "spearman", label.x = 0,label.y=-3,size=5,aes(x=handhygienecount,y=hand.both.mean))+
+  #geom_smooth(aes(x=handhygienecount/numevents*100,y=hand.R.mean),method="lm")+
+  stat_smooth(method = "lm", aes(x=handhygienecount,y=hand.both.mean),color="black")+
+  scale_color_manual(name="",values=c("#99FFCC","#99CCFF"))+
+  facet_wrap(room.face~care)+
+  theme_pubr()+
+  theme(axis.text=element_text(size=15),axis.title=element_text(size=15),
+        legend.text=element_text(size=15),legend.title=element_text(size=15),
+        legend.box="vertical",strip.text = element_text(size=15))
+
 #left-facing---------------------------------------------------------------------------------------------
-data.cor<-data[data$care=="Observation" & data$room.face=="Left-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
+data.cor<-data[data$care=="Observation" & data$room.face=="Left-facing" & data$handhygienecount>0 & data$patcontact>=1,]
+cor.test(log10(data.cor$hand.both.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
-data.cor<-data[data$care=="Rounds" & data$room.face=="Left-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
+data.cor<-data[data$care=="Rounds" & data$room.face=="Left-facing" & data$handhygienecount>0 & data$patcontact>=1,]
+cor.test(log10(data.cor$hand.both.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
-data.cor<-data[data$care=="IV" & data$room.face=="Left-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
+data.cor<-data[data$care=="IV" & data$room.face=="Left-facing" & data$handhygienecount>0 & data$patcontact>=1,]
+cor.test(log10(data.cor$hand.both.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
 #right-facing----------------------------------------------------------------------------------------------
-data.cor<-data[data$care=="Observation" & data$room.face=="Right-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
+data.cor<-data[data$care=="Observation" & data$room.face=="Right-facing" & data$handhygienecount>0 & data$patcontact>=1,]
+cor.test(log10(data.cor$hand.both.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
-data.cor<-data[data$care=="Rounds" & data$room.face=="Right-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
+data.cor<-data[data$care=="Rounds" & data$room.face=="Right-facing" & data$handhygienecount>0 & data$patcontact>=1,]
+cor.test(log10(data.cor$hand.both.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
-data.cor<-data[data$care=="IV" & data$room.face=="Right-facing" & data$handhygienecount>0,]
-cor.test(log10(data.cor$hand.R.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
+data.cor<-data[data$care=="IV" & data$room.face=="Right-facing" & data$handhygienecount>0 & data$patcontact>=1,]
+cor.test(log10(data.cor$hand.both.mean),log10(data.cor$handhygienecount/data.cor$numevents*100),method="spearman")
 
 #------------------------ Looking into glove doffing/donning issue - how often are gloves doffed when not donned or donned
 #------------------------ when already donned?

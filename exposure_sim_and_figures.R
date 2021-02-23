@@ -28,7 +28,7 @@ seq.Rounds.right<-behavior.total
 exposure.Rounds.right<-exposure.frame
 
 # example plots
-person<-7
+person<-119
 handconc<-c(exposure.IV.left[[person]]$handR,exposure.IV.left[[person]]$handL)
 time<-c(rep(1:length(exposure.IV.left[[person]]$handR),2))
 behavior<-rep(exposure.IV.left[[person]]$behavior,2)
@@ -46,10 +46,10 @@ ggplot(data=frame.1,aes(x=time,y=handconc,group=hand))+
                         "#FF99FF","#0099CC","#0033FF",
                         "#9966FF","#99FFCC","#CCFF66"))+
   theme_pubr()+
-  annotate("text",x=68,y=1.1e-5,label="Glove doffing",size=6)+
-  annotate("text",x=30,y=0.5e-5,label="Glove donning",size=6)+
-  annotate("segment", x = 70, xend = 65, y = 0.9e-5, yend = 0.9e-5, colour = "black", size=1, arrow=arrow())+
-  annotate("segment", x = 31, xend = 28.5, y = 0.4e-5, yend = 0.1e-5, colour = "black", size=1, arrow=arrow())+
+  annotate("text",x=64,y=0.9e-6,label="Hand Hygiene",size=5)+
+  #annotate("text",x=30,y=0.5e-5,label="Glove donning",size=6)+
+  annotate("segment", x = 60, xend = 52, y = 0.9e-6, yend = 0.9e-6, colour = "black", size=1, arrow=arrow())+
+  #annotate("segment", x = 31, xend = 28.5, y = 0.4e-5, yend = 0.1e-5, colour = "black", size=1, arrow=arrow())+
    theme(axis.text=element_text(size=20),axis.title=element_text(size=20),
         legend.text=element_text(size=20),legend.title=element_text(size=20),
         legend.box="vertical")
@@ -116,7 +116,7 @@ data<-data.frame(hand.R.max=hand.R.max,hand.both.max=hand.both.max,hand.both.mea
                  numcontacts=numcontacts,room.face=room.face,care=care)
 
 
-#summary stats for infection risk
+#summary stats for infection risk--------------------------------------------------------------------------------------
 
 doctor.left<-signif(mean(data$infection[data$care=="Rounds" & data$room.face=="Left-facing"]),2)
 iv.left<-signif(mean(data$infection[data$care=="IV" & data$room.face=="Left-facing"]),2)
@@ -143,8 +143,8 @@ obs.right<-signif(mean(data$infection[data$care=="Observation" & data$room.face=
 (doctor.right-obs.right)/obs.right*100
 
 #comparison between rooms
-(doctor.right-doctor.left)/doctor.left*100
-(iv.right-iv.left)/iv.left*100
+(doctor.left-doctor.right)/doctor.right*100
+(iv.left-iv.right)/iv.right*100
 (obs.left-obs.right)/obs.right*100
 
 
@@ -534,9 +534,15 @@ ggplot(data=bar.frame)+geom_bar(aes(y=percentage*100,x=care,fill=behavior),stat=
   scale_fill_manual(name="Behavior",values=c("#99CCFF","#00CC99","#006666",
                                        "#FF99FF","#0099CC","#0033FF",
                                        "#9966FF","#99FFCC","#CCFF66"))
+
 bar.frame$pecentage[bar.frame$behavior=="Patient" & bar.frame$orientation=="Left-facing" & bar.frame$care=="Rounds"]
 
 bar.frame$pecentage[bar.frame$behavior=="Patient" & bar.frame$orientation=="Right-facing" & bar.frame$care=="Rounds"]
+
+bar.frame$pecentage[bar.frame$behavior=="Equipment" & bar.frame$orientation=="Left-facing" & bar.frame$care=="Obs"]
+
+bar.frame$pecentage[bar.frame$behavior=="Equipment" & bar.frame$orientation=="Right-facing" & bar.frame$care=="Obs"]
+
 
 ####################################################################################
 
