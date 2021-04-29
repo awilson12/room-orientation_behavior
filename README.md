@@ -1,4 +1,4 @@
-# room-orientation_behaviour
+# room-orientation_behavior
 
 lambda.csv
 ----------
